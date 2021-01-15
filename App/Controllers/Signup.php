@@ -35,7 +35,7 @@ class Signup extends \Core\Controller
 		if ($user->save()) {
 
 			
-			$this->redirect('/');
+			$this->redirect('/login/new');
 
         } 
 		else 
