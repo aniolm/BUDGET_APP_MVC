@@ -85,13 +85,13 @@ class User extends \Core\Model
 		if ((strlen($user)<3) || (strlen($user)>20))
 		{
 			$validation_OK=false;
-			//$_SESSION['e_uname']="Username must be from 3 to 20 characters long!";
+			$_SESSION['e_uname']="Username must be from 3 to 20 characters long!";
 		}
 		
 		if (ctype_alnum($user)==false)
 		{
 			$validation_OK=false;
-			//$_SESSION['e_uname']="Username must consist of letters and numbers (without polish characters)";
+			$_SESSION['e_uname']="Username must consist of letters and numbers (without polish characters)";
 		}
 		
 		$email = $this->email;
@@ -100,9 +100,12 @@ class User extends \Core\Model
 		if ((filter_var($email_filtered, FILTER_VALIDATE_EMAIL)==false) || ($email_filtered!=$email))
 		{
 			$validation_OK=false;
-			//$_SESSION['e_email']="Enter valid e-mail address!";
+			$_SESSION['e_email']="Enter valid e-mail address!";
 		}
-		
+		else
+		{
+			unset($_SESSION['e_email']);
+		}
 
 		$psw1 = $this->psw;
 		$psw2 = $this->psw2;
@@ -110,27 +113,43 @@ class User extends \Core\Model
 		if ((strlen($psw1)<6) || (strlen($psw1)>20))
 		{
 			$validation_OK=false;
-			//$_SESSION['e_psw']="Password must be 6 to 20 characters long!";
+			$_SESSION['e_psw']="Password must be 6 to 20 characters long!";
+		}
+		else
+		{
+			unset($_SESSION['e_psw']);
 		}
 		
 		if ($psw1!=$psw2)
 		{
 			$validation_OK=false;
-			//$_SESSION['e_psw']="Passwords are not matching!";
-		}	
+			$_SESSION['e_psw']="Passwords are not matching!";
+		}
+		else
+		{
+			unset($_SESSION['e_psw']);
+		}		
 		
 		$result = static::findByEmail($email);
 		if($result->num_rows>0)
 		{
 			$validation_OK=false;
-			//$_SESSION['e_email']="Email already exists in database!";
-		}		
+			$_SESSION['e_email']="Email already exists in database!";
+		}
+		else
+		{
+			unset($_SESSION['e_email']);
+		}
 				
 		$result = static::findByUsername($user);		
 		if($result->num_rows>0)
 		{
 			$validation_OK=false;
-			//$_SESSION['e_uname']="Username already exists in the database!";
+			$_SESSION['e_uname']="Username already exists in the database!";
+		}
+		else
+		{
+			unset($_SESSION['e_uname']);
 		}
 		
 		return $validation_OK;
@@ -168,7 +187,7 @@ class User extends \Core\Model
     {
         $connection = static::getDB();
 		
-		$result = $connection->query("SELECT id FROM users WHERE email='$email'");
+		$result = $connection->query("SELECT id, username, password, email FROM users WHERE email='$email'");
 				
 				if (!$result) throw new Exception($connection->error);
 					
@@ -187,7 +206,7 @@ class User extends \Core\Model
     {
         $connection = static::getDB();
 		
-		$result = $connection->query("SELECT id FROM users WHERE username='$user'");
+		$result = $connection->query("SELECT id, username, password, email FROM users WHERE username='$user'");
 				
 				if (!$result) throw new Exception($connection->error);  
 					
@@ -196,15 +215,25 @@ class User extends \Core\Model
     }
 	
 	/**
-     * Get all the users as an associative array
+     //* Authenticate a user by username and password.
+     * Authenticate a user by username and password. User account has to be active.
      *
-     * @return array
+     * @param string $email email address
+     * @param string $password password
+     *
+     * @return mixed  The user object or false if authentication fails
+	 
      */
-    
-	public static function getAll()
+    public static function authenticate($username, $password)
     {
-        $db = static::getDB();
-        $stmt = $db->query('SELECT id, name FROM users');
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $result = static::findByUsername($username);
+		$user = $result-> fetch_object();
+        if ($user) {
+            if (password_verify($password, $user->password)) {
+                return $user;
+            }
+        }
+
+        return false;
     }
 }
