@@ -45,8 +45,10 @@ class User extends \Core\Model
 					$result = $connection->query("SELECT id FROM users WHERE username='$user' AND email='$email'");
 					$row = mysqli_fetch_array($result);
 					$id_user = $row["id"];
-					$connection->query("INSERT INTO incomes_category_assigned_to_users (id , name ) SELECT id, name FROM incomes_category_default");
-					$connection->query("UPDATE incomes_category_assigned_to_users SET user_id = $id_user WHERE user_id = 0");
+					$connection->query("INSERT INTO incomes_category_assigned_to_users (id,user_id,name) SELECT id, '$id_user' AS user_id, name FROM incomes_category_default;");
+					$connection->query("INSERT INTO expenses_category_assigned_to_users (id,user_id,name) SELECT id, '$id_user' AS user_id, name FROM expenses_category_default;");
+					$connection->query("INSERT INTO payment_methods_assigned_to_users (id,user_id,name) SELECT id, '$id_user' AS user_id, name FROM payment_methods_default;");
+					//$connection->query("UPDATE incomes_category_assigned_to_users SET user_id = $id_user WHERE user_id = 0");
 					return true;
 				}
 				else
@@ -235,5 +237,30 @@ class User extends \Core\Model
         }
 
         return false;
+    }
+	
+	public static function logout()
+    {
+        // Unset all of the session variables
+        $_SESSION = [];
+
+        // Delete the session cookie
+        if (ini_get('session.use_cookies')) {
+            $params = session_get_cookie_params();
+
+            setcookie(
+                session_name(),
+                '',
+                time() - 42000,
+                $params['path'],
+                $params['domain'],
+                $params['secure'],
+                $params['httponly']
+            );
+        }
+
+        // Finally destroy the session
+        session_destroy();
+
     }
 }

@@ -19,6 +19,15 @@ class Home extends \Core\Controller
      */
     public function indexAction()
     {
-        View::renderTemplate('Home/index.html');
+        if (isset($_SESSION['id'])) 
+		{
+
+           View::renderTemplate('Home/index.html');
+		}	 
+		else
+		{
+		$this->redirect('/login/new');	
+        } 
+		
     }
 }
