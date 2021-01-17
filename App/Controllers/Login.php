@@ -56,7 +56,7 @@ class Login extends \Core\Controller
      */
     public function destroyAction()
     {
-        Auth::logout();
+        User::logout();
 
         $this->redirect('/login/new');
     }
