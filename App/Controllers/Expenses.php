@@ -3,24 +3,24 @@
 namespace App\Controllers;
 
 use \Core\View;
-use \App\Models\Income;
+use \App\Models\Expense;
 
 /**
- * Incomes controller
+ * Expense controller
  *
  * PHP version 7.0
  */
-class Incomes extends \Core\Controller
+class Expenses extends \Core\Controller
 {
 
     /**
-     * Show the income page
+     * Show the expense page
      *
      * @return void
      */
     public function indexAction()
     {
-        View::renderTemplate('Income/index.html');		
+        View::renderTemplate('Expense/index.html');		
     }
 	
 	/**
@@ -31,9 +31,9 @@ class Incomes extends \Core\Controller
     public function createAction()
     {
         
-		 $income = new Income($_POST);
+		 $expense = new Expense($_POST);
 		
-		if ($income->save()) {
+		if ($expense->save()) {
 
 			
 			$this->redirect('/');
