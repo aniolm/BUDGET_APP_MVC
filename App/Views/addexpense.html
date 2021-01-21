@@ -9,37 +9,37 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
+        <form action="/expenses/create" method="post">
 			<div class="form-group">
 			<label for="date"><b>Date</b></label>
-			<input class="form-control" type="date" id="datePicker" value="2020-11-21" name="date" required>
+			<input class="form-control" type="date" id="datePicker"  name="date" required>
 			</div>
 			<div class="form-group">
 			<label for="category"><b>Category</b></label>
 			<select class="form-control"  name="category" required>
-				<option value="food">Food</option>
-				<option value="transport">Transport</option>
-				<option value="bills">Bills</option>
-				<option value="healthcare">Healthcare</option>
-				<option value="clothes">Clothes</option>
-				<option value="hygene">Hygene</option>
-				<option value="kids">Kids</option>
-				<option value="amusement">Amusement</option>
-				<option value="training">Training</option>
-				<option value="books">Books</option>
-				<option value="savings">Savings</option>
-				<option value="pension">Pension</option>
-				<option value="debts">Debts</option>
-				<option value="charity">Charity</option>
-				<option value="others">Others</option>			
+				<option value="1">Food</option>
+				<option value="2">Transport</option>
+				<option value="3">Bills</option>
+				<option value="4">Healthcare</option>
+				<option value="5">Clothing</option>
+				<option value="6">Hygene</option>
+				<option value="7">Kids</option>
+				<option value="8">Amusement</option>
+				<option value="9">Training</option>
+				<option value="10">Books</option>
+				<option value="11">Savings</option>
+				<option value="12">Pension</option>
+				<option value="13">Debts</option>
+				<option value="14">Charity</option>
+				<option value="15">Others</option>			
 			</select>
 			</div>
 			<div class="form-group">
 			<label for="pmethod"><b>Payment method</b></label>
 			<select class="form-control" name="pmethod" required>
-				<option value="cash">Cash</option>
-				<option value="card">Credit/Debit Card</option>
-				<option value="transfer">Money Transfer</option>				
+				<option value="1">Cash</option>
+				<option value="2">Credit/Debit Card</option>
+				<option value="3">Money Transfer</option>				
 			</select>
 			</div>
 			<div class="form-group">
@@ -50,12 +50,13 @@
 			<label for="description"><b>Description</b></label>
 			<input class="form-control" type="text" placeholder="Enter description" name="description">
 			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-success">Save</button>
+			</div>
 		</form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-success">Save</button>
-      </div>
+      
     </div>
 	</div>
 	</div>
