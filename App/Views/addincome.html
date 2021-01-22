@@ -9,10 +9,10 @@
         </button>
       </div>
       <div class="modal-body">
-        <form action="addincome.php" method="post">
+        <form action="/incomes/create" method="post">
 			<div class="form-group">
 			<label for="date"><b>Date</b></label>
-			<input class="form-control" type="date" id="datePicker" value="<?php echo date("Y-m-d");?>" name="date" required>
+			<input class="form-control" type="date" id="datePicker" name="date" required>
 			</div>
 			<div class="form-group">
 			<label for="category"><b>Category</b></label>
