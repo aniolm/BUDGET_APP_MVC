@@ -98,5 +98,41 @@ class Income extends \Core\Model
 		return $validation_OK;
 	}	
 	
+	/**
+     * Get incomes based on given dates
+     *
+     * @return array with data
+     */
+	 
+	public static function get($start_date, $end_date)
+	{
+		try 
+		{
+			$connection = static::getDB();
+			$incomes = $connection->query("SELECT * FROM incomes WHERE date_of_income BETWEEN '$start_date' AND '$end_date'");
+			
+			if ($incomes->num_rows > 0)
+				{	
+				
+					return $incomes;
+				}
+			else
+				{
+					throw new Exception($connection->error);
+				}
+					
+			
+				
+			$connection->close();
+			
+			
+		}
+		catch(Exception $e)
+		{
+			echo '<span style="color:red;">Server error! Please try again later!</span>';
+			echo '<br />Developer information: '.$e;
+			
+		}
+	}
 
 }

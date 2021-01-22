@@ -20,7 +20,10 @@ class Incomes extends \Core\Controller
      */
     public function indexAction()
     {
-        View::renderTemplate('Income/index.html');		
+        $startdate = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
+		$enddate = date('Y-m-d', mktime(0, 0, 0, date('m')+1, 0, date('Y')));
+		$incomes = Income::get($startdate, $enddate);
+	    View::renderTemplate('Income/index.html', ['incomes'=>$incomes]);		
     }
 	
 	/**
