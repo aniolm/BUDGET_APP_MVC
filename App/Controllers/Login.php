@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use \Core\View;
 use \App\Models\User;
+use \App\Date;
 
 /**
  * Sign-up controller
@@ -39,6 +40,8 @@ class Login extends \Core\Controller
             //Auth::login($user, $remember_me);
 			$_SESSION['id'] = $user->id;
 			$_SESSION['username'] = $user->username;
+            Date::set_date();
+			
             //$this->redirect(Auth::getReturnToPage());
 			 $this->redirect('/');	
         } 

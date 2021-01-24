@@ -1,5 +1,5 @@
  var ctx = document.getElementById("budgetChart");
-   var myChart = new Chart(ctx, {
+   var budgetChart = new Chart(ctx, {
     type: 'doughnut',
     data: {
         labels: ["Spent", "Left"],
@@ -45,6 +45,7 @@
 		}
     }
     });
+
 
 Chart.pluginService.register({
   beforeDraw: function(chart) {
@@ -129,3 +130,10 @@ Chart.pluginService.register({
     }
   }
 });
+
+
+
+
+
+
+

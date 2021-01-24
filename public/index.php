@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * Front controller
  *
@@ -23,6 +24,7 @@ set_exception_handler('Core\Error::exceptionHandler');
  * Sessions
  */
 session_start();
+
 
 /**
  * Routing
