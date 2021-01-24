@@ -5,53 +5,43 @@
     <section class="container">
 	<div class="row mb-3">		
 		<h2>Incomes</h2>
-		<form class="form-inline ml-auto">
-       	<select class="form-control" name="month" required>
-				<option value="cmonth">Current month</option>
-				<option value="lmonth">Last month</option>
-				<option value="speriod">Selected period</option>
-		<select>
-		</form>
+		<a class="btn btn-success ml-auto" href="income.html" data-toggle="modal" data-target="#pickdate">Change dates</a>
 	</div>
 	
 	<div class="row">
 		<div class="col-sm-6">
-		<canvas id="budgetChart" width="400px" height="400px"></canvas>
+		<canvas id="incomeChart" width="400px" height="400px"></canvas>
 		</div>
 		<div class="card col-sm-6 p-3">
 			<div>
-				<h4>Planned budget</h4>
+				<h4>Planned incomes</h4>
 			</div>
 			<div>
 				<h3><hr></h3>
 			</div>
-			<div class="text-center">
-				Planned incomes: 6000PLN
+			<div class="text-center h4">
+				6000PLN
 			</div>
-			<div class="text-center">
-				Planned expenses: 1600PLN
-			</div>
-			<div class="text-center mb-3">
-				To be disposed: 4400PLN
-			</div>
+			
 			<div>
-				<h4>Actual budget</h4>
+				<h4>Actual incomes</h4>
 			</div>
 			<div>
 				<h3><hr></h3>
 			</div>
-			<div class="text-center">
-				Actual incomes: 6000PLN
+			<div class="text-center h4">
+				6000PLN
 			</div>
-			<div class="text-center">
-				Actual expenses: 1700PLN
+			<div>
+				<h4>Difference </h4>
 			</div>
-			<div class="text-center">
-				To be spent: -100PLN
+			<div>
+				<h3><hr></h3>
 			</div>
-			<div class="text-center my-3 alert-danger">
-				<h3>Stop spending money!!!</h3>
-			</div>		
+			<div class="text-center h4">
+				0PLN
+			</div>
+				
 		</div>
 	</div>
 	</section>
@@ -62,7 +52,6 @@
 			<div class="btn-group ml-auto" role="group">
 			<a class="btn btn-success" href="income.html" data-toggle="modal" data-target="#addincome">+</a>
 			<a class="btn btn-success" href="income.html" data-toggle="modal" data-target="#delincome">-</a>
-		    <a class="btn btn-success" href="incomes.html">Details</a>
 			</div>
 	</div>
     
@@ -84,7 +73,7 @@
 				{% for income in incomes %}
 				<tr>
 		         <td>{{ income.id }}</td>
-		         <td>{{ income.income_category_assigned_to_user_id}}</td>
+		         <td>{{ income.name}}</td>
 		         <td>{{ income.income_comment }}</td>
 				 <td>{{ income.date_of_income }}</td>
 				 <td>{{ income.amount }}</td>

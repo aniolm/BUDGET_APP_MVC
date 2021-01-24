@@ -5,6 +5,7 @@ namespace App\Controllers;
 use \Core\View;
 use \App\Models\Income;
 
+
 /**
  * Incomes controller
  *
@@ -19,10 +20,8 @@ class Incomes extends \Core\Controller
      * @return void
      */
     public function indexAction()
-    {
-        $startdate = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
-		$enddate = date('Y-m-d', mktime(0, 0, 0, date('m')+1, 0, date('Y')));
-		$incomes = Income::get($startdate, $enddate);
+    {        
+		$incomes = Income::get($_SESSION['start_date'],$_SESSION['end_date']);
 	    View::renderTemplate('Income/index.html', ['incomes'=>$incomes]);		
     }
 	
@@ -44,6 +43,5 @@ class Incomes extends \Core\Controller
         } 
 	
     }
-
-
+    
 }

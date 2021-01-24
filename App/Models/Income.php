@@ -109,8 +109,11 @@ class Income extends \Core\Model
 		try 
 		{
 			$connection = static::getDB();
-			$incomes = $connection->query("SELECT * FROM incomes WHERE date_of_income BETWEEN '$start_date' AND '$end_date'");
-			
+		    $user_id = $_SESSION['id'];			
+			$incomes = $connection->query("SELECT incomes.id,  incomes_category_assigned_to_users.name, incomes.income_comment, incomes.amount, incomes.date_of_income
+			                               FROM incomes
+										   INNER JOIN incomes_category_assigned_to_users ON incomes.income_category_assigned_to_user_id = incomes_category_assigned_to_users.id
+										   WHERE incomes.date_of_income BETWEEN '$start_date' AND '$end_date' AND incomes.user_id = $user_id");
 			if ($incomes->num_rows > 0)
 				{	
 				
