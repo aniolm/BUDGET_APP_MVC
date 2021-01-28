@@ -4,14 +4,8 @@
 
     <section class="container">
 	<div class="row mb-3">		
-		<h2>Budget</h2>
-		<form class="form-inline ml-auto">
-       	<select class="form-control" name="month" required>
-				<option value="cmonth">Current month</option>
-				<option value="lmonth">Last month</option>
-				<option value="speriod">Selected period</option>
-		<select>
-		</form>
+		<h2>Budget</h2>		
+       	<a class="btn btn-success ml-auto" href="income.html" data-toggle="modal" data-target="#pickdate">Change dates</a>
 	</div>
 	
 	<div class="row">
@@ -80,48 +74,15 @@
 				</tr>
 			</thead>
 			<tbody>
+				{% for category in incomes_summed %}
 				<tr>
-					<td>Sallary</td>
-					<td>5400PLN</td>
-					<td>5400PLN</td>
-					<td>0PLN</td>
-					<td>90%</td>
-				</tr>
-				<tr>
-					<td>Bonus money</td>
-					<td>300PLN</td>
-					<td>300PLN</td>
-					<td>0PLN</td>
-					<td>5%</td>
-				</tr>
-				<tr>
-					<td>Earned interest</td>
-					<td>0PLN</td>
-					<td>0PLN</td>
-					<td>0PLN</td>
-					<td>0%</td>
-				</tr>
-				<tr>
-					<td>Rental property</td>
-					<td>0PLN</td>
-					<td>0PLN</td>
-					<td>0PLN</td>
-					<td>0%</td>
-				</tr>
-				<tr>
-					<td>Sold items</td>
-					<td>300PLN</td>
-					<td>300PLN</td>
-					<td>0PLN</td>
-					<td>5%</td>
-				</tr>
-				<tr>
-					<td>Others</td>
-					<td>0PLN</td>
-					<td>0PLN</td>
-					<td>0PLN</td>
-					<td>0%</td>
-				</tr>
+		         <td>{{ category.name }} </td>
+		         <td>0</td>
+		         <td>{{ category.earned }} </td>
+				 <td>0</td>
+				 <td>0</td>
+				</tr>				
+				{% endfor %}
 			</tbody>
 		</table>
 	</div>
@@ -150,111 +111,15 @@
 				</tr>
 				</thead>
 				<tbody>
+				{% for category in expenses_summed %}
 				<tr>
-					<td>Food</td>
-					<td>800PLN</td>
-					<td>900PLN</td>
-					<td>100PLN</td>
-					<td>15%</td>
-				</tr>
-				<tr>
-					<td>Housing</td>
-					<td>500PLN</td>
-					<td>500PLN</td>
-					<td>0PLN</td>
-					<td>8.3%</td>
-				</tr>
-				<tr>
-					<td>Transportation</td>
-					<td>0PLN</td>
-					<td>0PLN</td>
-					<td>0PLN</td>
-					<td>0%</td>
-				</tr>
-				<tr>
-					<td>Utilities</td>
-					<td>0PLN</td>
-					<td>0PLN</td>
-					<td>0PLN</td>
-					<td>0%</td>
-				</tr>
-				<tr>
-					<td>Clothing</td>
-					<td>300PLN</td>
-					<td>300PLN</td>
-					<td>0PLN</td>
-					<td>5%</td>
-				</tr>
-				<tr>
-					<td>Kids</td>
-					<td>0PLN</td>
-					<td>0PLN</td>
-					<td>0PLN</td>
-					<td>0%</td>
-				</tr>
-				<tr>
-					<td>Healthcare</td>
-					<td>0PLN</td>
-					<td>0PLN</td>
-					<td>0PLN</td>
-					<td>0%</td>
-				</tr>
-				<tr>
-					<td>Insurance</td>
-					<td>0PLN</td>
-					<td>0PLN</td>
-					<td>0PLN</td>
-					<td>0%</td>
-				</tr>
-				<tr>
-					<td>Vacation</td>
-					<td>0PLN</td>
-					<td>0PLN</td>
-					<td>0PLN</td>
-					<td>0%</td>
-				</tr>
-				<tr>
-					<td>Education</td>
-					<td>0PLN</td>
-					<td>0PLN</td>
-					<td>0PLN</td>
-					<td>0%</td>
-				</tr>
-				<tr>
-					<td>Hobbies</td>
-					<td>0PLN</td>
-					<td>0PLN</td>
-					<td>0PLN</td>
-					<td>0%</td>
-				</tr>
-				<tr>
-					<td>Savings</td>
-					<td>0PLN</td>
-					<td>0PLN</td>
-					<td>0PLN</td>
-					<td>0%</td>
-				</tr>
-				<tr>
-					<td>Debts</td>
-					<td>0PLN</td>
-					<td>0PLN</td>
-					<td>0PLN</td>
-					<td>0%</td>
-				</tr>
-				<tr>
-					<td>Donation</td>
-					<td>0PLN</td>
-					<td>0PLN</td>
-					<td>0PLN</td>
-					<td>0%</td>
-				</tr>
-				<tr>
-					<td>Others</td>
-					<td>0PLN</td>
-					<td>0PLN</td>
-					<td>0PLN</td>
-					<td>0%</td>
-				</tr>
+		         <td>{{ category.name }} </td>
+		         <td>0</td>
+		         <td>{{ category.spent }} </td>
+				 <td>0</td>
+				 <td>0</td>
+				</tr>				
+				{% endfor %}
 	
 			</tbody>
 		</table>

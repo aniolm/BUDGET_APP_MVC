@@ -137,5 +137,37 @@ class Income extends \Core\Model
 			
 		}
 	}
+	
+	public static function sum_by_category($start_date, $end_date)
+	{
+		try 
+		{
+			$connection = static::getDB();
+		    $user_id = $_SESSION['id'];			
+			$incomes_summed = $connection->query("SELECT incomes_category_assigned_to_users.name, sum(incomes.amount) as earned  
+			                               FROM incomes
+										   INNER JOIN incomes_category_assigned_to_users ON incomes.income_category_assigned_to_user_id = incomes_category_assigned_to_users.id
+										   WHERE incomes.date_of_income BETWEEN '$start_date' AND '$end_date' AND incomes.user_id = $user_id
+										   GROUP BY income_category_assigned_to_user_id");
+				
+				
+			//while ($row = $result -> fetch_assoc()) {
+            //$results[] = $row;
+            //}
+			
+			return $incomes_summed;
+				
+			$connection->close();
+			
+			
+		}
+		catch(Exception $e)
+		{
+			echo '<span style="color:red;">Server error! Please try again later!</span>';
+			echo '<br />Developer information: '.$e;
+			
+		}
+	}
+	
 
 }
