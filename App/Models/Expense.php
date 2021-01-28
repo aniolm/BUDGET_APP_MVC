@@ -6,7 +6,7 @@ use PDO;
 use mysqli;
 
 /**
- * Income model
+ * expense model
  *
  * PHP version 7.0
  */
@@ -70,7 +70,7 @@ class Expense extends \Core\Model
 	}
 	
 	/**
-     * Validate income data passed from the form
+     * Validate expense data passed from the form
      *
      * @return bool
      */
@@ -99,5 +99,65 @@ class Expense extends \Core\Model
 		return $validation_OK;
 	}	
 	
+/**
+     * Get expenses based on given dates
+     *
+     * @return array with data
+     */
+	 
+	public static function get($start_date, $end_date)
+	{
+		try 
+		{
+			$connection = static::getDB();
+		    $user_id = $_SESSION['id'];			
+			$expenses = $connection->query("SELECT expenses.id,  expenses_category_assigned_to_users.name, expenses.expense_comment, expenses.amount, expenses.date_of_expense
+			                               FROM expenses
+										   INNER JOIN expenses_category_assigned_to_users ON expenses.expense_category_assigned_to_user_id = expenses_category_assigned_to_users.id
+										   WHERE expenses.date_of_expense BETWEEN '$start_date' AND '$end_date' AND expenses.user_id = $user_id");
+			
+			return $expenses;
 
+			$connection->close();
+			
+			
+		}
+		catch(Exception $e)
+		{
+			echo '<span style="color:red;">Server error! Please try again later!</span>';
+			echo '<br />Developer information: '.$e;
+			
+		}
+	}
+	
+	public static function sum_by_category($start_date, $end_date)
+	{
+		try 
+		{
+			$connection = static::getDB();
+		    $user_id = $_SESSION['id'];			
+			$expenses_summed = $connection->query("SELECT expenses_category_assigned_to_users.name, sum(expenses.amount) as spent 
+			                               FROM expenses
+										   INNER JOIN expenses_category_assigned_to_users ON expenses.expense_category_assigned_to_user_id = expenses_category_assigned_to_users.id
+										   WHERE expenses.date_of_expense BETWEEN '$start_date' AND '$end_date' AND expenses.user_id = $user_id
+										   GROUP BY expense_category_assigned_to_user_id");
+				
+				
+			//while ($row = $result -> fetch_assoc()) {
+            //$results[] = $row;
+            //}
+			
+			return $expenses_summed;
+				
+			$connection->close();
+			
+			
+		}
+		catch(Exception $e)
+		{
+			echo '<span style="color:red;">Server error! Please try again later!</span>';
+			echo '<br />Developer information: '.$e;
+			
+		}
+	}
 }

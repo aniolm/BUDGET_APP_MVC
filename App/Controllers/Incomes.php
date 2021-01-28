@@ -14,15 +14,26 @@ use \App\Models\Income;
 class Incomes extends \Core\Controller
 {
 
-    /**
+
+	
+	/**
      * Show the income page
      *
      * @return void
      */
     public function indexAction()
-    {        
-		$incomes = Income::get($_SESSION['start_date'],$_SESSION['end_date']);
-	    View::renderTemplate('Income/index.html', ['incomes'=>$incomes]);		
+    {        		
+		if (isset($_SESSION['id'])) 
+		{
+			$incomes = Income::get($_SESSION['start_date'],$_SESSION['end_date']);
+			$incomes_summed = Income::sum_by_category($_SESSION['start_date'],$_SESSION['end_date']);
+			$_SESSION['return_to'] = $_SERVER['REQUEST_URI'];		
+			View::renderTemplate('Income/index.html', ['incomes'=>$incomes, 'incomes_summed'=>$incomes_summed]);
+		}
+		else
+		{
+			$this->redirect('/login/new');	
+        } 
     }
 	
 	/**
@@ -38,10 +49,12 @@ class Incomes extends \Core\Controller
 		if ($income->save()) {
 
 			
-			$this->redirect('/');
+			$this->redirect($_SESSION['return_to']);
 
         } 
 	
     }
+	
+	
     
 }
