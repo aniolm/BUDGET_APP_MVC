@@ -1,0 +1,101 @@
+ .text-responsive {
+  font-size: calc(100% + 1vw + 1vh);
+}
+
+/*
+Generic Styling, for Desktops/Laptops 
+*/
+body {
+	font-size: 14px;
+}
+
+table { 
+  font-family: sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+/* Zebra striping */
+tr:nth-of-type(odd) { 
+  background: #eee; 
+}
+th { 
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #000000;
+  color: white;
+}
+td, th { 
+  padding: 6px; 
+  border: 1px solid #CCCCCC; 
+  text-align: left; 
+}
+
+
+@media 
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+	/* Force table to not be like tables anymore */
+	table, thead, tbody, th, td, tr { 
+		display: block; 
+	}
+	
+	/* Hide table headers (but not display: none;, for accessibility) */
+	thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+	
+	tr { border: 1px solid #ccc; }
+	
+	td { 
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+		padding-left: 50%; 
+	}
+	
+	td:before { 
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+	}
+	
+	/*
+	Label the data
+	*/
+	td.income:nth-of-type(1):before { content: "Id"; }
+	td.income:nth-of-type(2):before { content: "Category"; }
+	td.income:nth-of-type(3):before { content: "Description"; }
+	td.income:nth-of-type(4):before { content: "Date"; }
+	td.income:nth-of-type(5):before { content: "Amount"; }
+	
+	td.expense:nth-of-type(1):before { content: "Id"; }
+	td.expense:nth-of-type(2):before { content: "Category"; }
+	td.expense:nth-of-type(3):before { content: "Description"; }
+	td.expense:nth-of-type(4):before { content: "Date"; }
+	td.expense:nth-of-type(5):before { content: "Amount"; }
+	
+	td.cat_income:nth-of-type(1):before { content: "Category"; }
+	td.cat_income:nth-of-type(2):before { content: "Planned"; }
+	td.cat_income:nth-of-type(3):before { content: "Earned"; }
+	td.cat_income:nth-of-type(4):before { content: "Difference"; }
+	td.cat_income:nth-of-type(5):before { content: "Budget"; }
+	
+	td.cat_expense:nth-of-type(1):before { content: "Category"; }
+	td.cat_expense:nth-of-type(2):before { content: "Planned"; }
+	td.cat_expense:nth-of-type(3):before { content: "Spent"; }
+	td.cat_expense:nth-of-type(4):before { content: "Difference"; }
+	td.cat_expense:nth-of-type(5):before { content: "Budget"; }
+	
+	
+	
+}

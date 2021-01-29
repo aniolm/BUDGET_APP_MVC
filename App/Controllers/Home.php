@@ -23,10 +23,11 @@ class Home extends \Core\Controller
     {
         if (isset($_SESSION['id'])) 
 		{
-		   $incomes_summed = Income::sum_by_category($_SESSION['start_date'],$_SESSION['end_date']);
-		   $expenses_summed = Expense::sum_by_category($_SESSION['start_date'],$_SESSION['end_date']);
+		   $income_categories_summed = Income::sum_by_category($_SESSION['start_date'],$_SESSION['end_date']);
+		   $expense_categories_summed = Expense::sum_by_category($_SESSION['start_date'],$_SESSION['end_date']);
+		   $incomes_summed = Income::sum_all($_SESSION['start_date'],$_SESSION['end_date']);
 		   $_SESSION['return_to'] = $_SERVER['REQUEST_URI'];
-           View::renderTemplate('Home/index.html', ['incomes_summed'=>$incomes_summed, 'expenses_summed'=>$expenses_summed]);
+           View::renderTemplate('Home/index.html', ['income_categories_summed'=>$income_categories_summed, 'expense_categories_summed'=>$expense_categories_summed, 'incomes_summed'=>$incomes_summed]);
 		}	 
 		else
 		{
