@@ -7,7 +7,7 @@ var ctx2 = document.getElementById("incomeChart");
 			
         datasets: [{
             label: '# Incomes',
-            data: [ {% for category in incomes_summed %} {% if not loop.first %},{% endif %} {{ category.earned }}{% endfor %}],
+            data: [ {% for category in categories_summed %} {% if not loop.first %},{% endif %} {{ category.earned }}{% endfor %}],
             backgroundColor: [
                 '#B6C7F2',               
                 '#9DF2A3',
