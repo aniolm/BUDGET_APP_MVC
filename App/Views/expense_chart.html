@@ -8,7 +8,7 @@
         datasets: [{
             label: '# Expenses',
            
-            data: [ {% for category in expenses_summed %} {% if not loop.first %},{% endif %} {{ category.spent }}{% endfor %}],    
+            data: [ {% for category in categories_summed %} {% if not loop.first %},{% endif %} {{ category.spent }}{% endfor %}],    
 			
             backgroundColor: [
                 '#B6C7F2',               
