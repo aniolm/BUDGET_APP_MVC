@@ -130,6 +130,12 @@ class Expense extends \Core\Model
 		}
 	}
 	
+	/**
+     * Get summed expense categories based on given dates
+     *
+     * @return query result object
+     */
+	 
 	public static function sum_by_category($start_date, $end_date)
 	{
 		try 
@@ -148,6 +154,39 @@ class Expense extends \Core\Model
             //}
 			
 			return $expenses_summed;
+				
+			$connection->close();
+			
+			
+		}
+		catch(Exception $e)
+		{
+			echo '<span style="color:red;">Server error! Please try again later!</span>';
+			echo '<br />Developer information: '.$e;
+			
+		}
+	}
+	
+	/**
+     * Get income sum based on given dates
+     *
+     * @return sum as string 
+     */
+	 
+	public static function sum_all($start_date, $end_date)
+	{
+		try 
+		{
+			$connection = static::getDB();
+		    $user_id = $_SESSION['id'];			
+			$expenses_summed = $connection->query("SELECT sum(expenses.amount) as sum
+			                               FROM expenses
+										   WHERE expenses.date_of_expense BETWEEN '$start_date' AND '$end_date' AND expenses.user_id = $user_id");
+				
+				
+			$sum= $expenses_summed -> fetch_assoc(); 
+			$sum= $sum['sum']; 
+			return $sum;
 				
 			$connection->close();
 			

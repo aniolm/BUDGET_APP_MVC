@@ -38,14 +38,25 @@
 				Incomes: {{ incomes_summed }}PLN
 			</div>
 			<div class="text-center">
-				Expenses: 1700PLN
+				Expenses: {{ expenses_summed }}PLN
 			</div>
 			<div class="text-center">
-				To be spent: -100PLN
+				To be spent: {{ incomes_summed - expenses_summed  }}PLN
 			</div>
+			{% if incomes_summed > expenses_summed %}
+			<div class="text-center my-3 alert-success">
+				<h3>Well done. Budget under control.</h3>
+			</div>	
+			{% elseif (incomes_summed > expenses_summed) and ((incomes_summed - 300) < expenses_summed) %}
+			<div class="text-center my-3 alert-warning">
+				<h3>Yaou are close to the limit!!!</h3>
+			</div>	
+			{% else %}
 			<div class="text-center my-3 alert-danger">
 				<h3>Stop spending money!!!</h3>
-			</div>		
+			</div>	
+			{% endif %}
+							
 		</div>
 		<div class="col-sm-6">
 			<canvas id="budgetChart" width="400px" height="400px"></canvas>

@@ -23,9 +23,10 @@ class Expenses extends \Core\Controller
         if (isset($_SESSION['id'])) 
 		{
 			$expenses = Expense::get($_SESSION['start_date'],$_SESSION['end_date']);
-			$expenses_summed = Expense::sum_by_category($_SESSION['start_date'],$_SESSION['end_date']);
+			$categories_summed = Expense::sum_by_category($_SESSION['start_date'],$_SESSION['end_date']);
+			$expenses_summed = Expense::sum_all($_SESSION['start_date'],$_SESSION['end_date']);
 			$_SESSION['return_to'] = $_SERVER['REQUEST_URI'];	
-			View::renderTemplate('Expense/index.html', ['expenses'=>$expenses, 'expenses_summed'=>$expenses_summed]);
+			View::renderTemplate('Expense/index.html', ['expenses'=>$expenses, 'categories_summed'=>$categories_summed,  'expenses_summed'=>$expenses_summed]);
 		}
 		else
 		{
