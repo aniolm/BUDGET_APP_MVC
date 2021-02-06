@@ -113,7 +113,7 @@ class Income extends \Core\Model
 			$incomes = $connection->query("SELECT incomes.id,  incomes_category_assigned_to_users.name, incomes.income_comment, incomes.amount, incomes.date_of_income
 			                               FROM incomes
 										   INNER JOIN incomes_category_assigned_to_users ON incomes.income_category_assigned_to_user_id = incomes_category_assigned_to_users.id
-										   WHERE incomes.date_of_income BETWEEN '$start_date' AND '$end_date' AND incomes.user_id = $user_id
+										   WHERE incomes.date_of_income BETWEEN '$start_date' AND '$end_date' AND incomes.user_id = $user_id AND incomes_category_assigned_to_users.user_id = $user_id
 										   ORDER BY incomes.date_of_income");
 			if ($incomes->num_rows > 0)
 				{	
@@ -151,10 +151,10 @@ class Income extends \Core\Model
 		{
 			$connection = static::getDB();
 		    $user_id = $_SESSION['id'];			
-			$categories_summed = $connection->query("SELECT incomes_category_assigned_to_users.name, sum(incomes.amount) as earned  
+			$categories_summed = $connection->query("SELECT incomes_category_assigned_to_users.name, incomes_category_assigned_to_users.planned, sum(incomes.amount) as earned  
 			                               FROM incomes
 										   INNER JOIN incomes_category_assigned_to_users ON incomes.income_category_assigned_to_user_id = incomes_category_assigned_to_users.id
-										   WHERE incomes.date_of_income BETWEEN '$start_date' AND '$end_date' AND incomes.user_id = $user_id
+										   WHERE incomes.date_of_income BETWEEN '$start_date' AND '$end_date' AND incomes.user_id = $user_id AND incomes_category_assigned_to_users.user_id = $user_id
 										   GROUP BY income_category_assigned_to_user_id");
 				
 				
@@ -209,5 +209,34 @@ class Income extends \Core\Model
 		}
 	}
 	
+	/**
+     * Get sum of incomes planned
+     *
+     * @return sum as string 
+     */
+	 
+	
+	public static function sum_all_planned()
+	{
+		try 
+		{
+			$connection = static::getDB();
+		    $user_id = $_SESSION['id'];			
+			$incomes_planned_summed = $connection->query("SELECT sum(incomes_category_assigned_to_users.planned) as sum
+			                               FROM incomes_category_assigned_to_users
+										   WHERE incomes_category_assigned_to_users.user_id = $user_id");
+				
+				
+			$sum= $incomes_planned_summed -> fetch_assoc(); 
+			$sum= $sum['sum']; 
+			return $sum;
 
+		}
+		catch(Exception $e)
+		{
+			echo '<span style="color:red;">Server error! Please try again later!</span>';
+			echo '<br />Developer information: '.$e;
+			
+		}
+	}
 }

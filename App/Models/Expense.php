@@ -114,7 +114,8 @@ class Expense extends \Core\Model
 			$expenses = $connection->query("SELECT expenses.id,  expenses_category_assigned_to_users.name, expenses.expense_comment, expenses.amount, expenses.date_of_expense
 			                               FROM expenses
 										   INNER JOIN expenses_category_assigned_to_users ON expenses.expense_category_assigned_to_user_id = expenses_category_assigned_to_users.id
-										   WHERE expenses.date_of_expense BETWEEN '$start_date' AND '$end_date' AND expenses.user_id = $user_id");
+										   WHERE expenses.date_of_expense BETWEEN '$start_date' AND '$end_date' AND expenses.user_id = $user_id AND expenses_category_assigned_to_users.user_id = $user_id
+										   ORDER BY expenses.date_of_expense");
 			
 			return $expenses;
 
@@ -142,10 +143,10 @@ class Expense extends \Core\Model
 		{
 			$connection = static::getDB();
 		    $user_id = $_SESSION['id'];			
-			$expenses_summed = $connection->query("SELECT expenses_category_assigned_to_users.name, sum(expenses.amount) as spent 
+			$expenses_summed = $connection->query("SELECT expenses_category_assigned_to_users.name, expenses_category_assigned_to_users.planned, sum(expenses.amount) as spent 
 			                               FROM expenses
 										   INNER JOIN expenses_category_assigned_to_users ON expenses.expense_category_assigned_to_user_id = expenses_category_assigned_to_users.id
-										   WHERE expenses.date_of_expense BETWEEN '$start_date' AND '$end_date' AND expenses.user_id = $user_id
+										   WHERE expenses.date_of_expense BETWEEN '$start_date' AND '$end_date' AND expenses.user_id = $user_id AND expenses_category_assigned_to_users.user_id = $user_id
 										   GROUP BY expense_category_assigned_to_user_id");
 				
 				
@@ -154,9 +155,6 @@ class Expense extends \Core\Model
             //}
 			
 			return $expenses_summed;
-				
-			$connection->close();
-			
 			
 		}
 		catch(Exception $e)
@@ -168,7 +166,7 @@ class Expense extends \Core\Model
 	}
 	
 	/**
-     * Get income sum based on given dates
+     * Get expense sum based on given dates
      *
      * @return sum as string 
      */
@@ -183,14 +181,43 @@ class Expense extends \Core\Model
 			                               FROM expenses
 										   WHERE expenses.date_of_expense BETWEEN '$start_date' AND '$end_date' AND expenses.user_id = $user_id");
 				
-				
 			$sum= $expenses_summed -> fetch_assoc(); 
 			$sum= $sum['sum']; 
 			return $sum;
 				
-			$connection->close();
+
 			
+		}
+		catch(Exception $e)
+		{
+			echo '<span style="color:red;">Server error! Please try again later!</span>';
+			echo '<br />Developer information: '.$e;
 			
+		}
+	}
+	
+	/**
+     * Get sum of expenses planned
+     *
+     * @return sum as string 
+     */
+	 
+	
+	public static function sum_all_planned()
+	{
+		try 
+		{
+			$connection = static::getDB();
+		    $user_id = $_SESSION['id'];			
+			$expenses_planned_summed = $connection->query("SELECT sum(expenses_category_assigned_to_users.planned) as sum
+			                               FROM expenses_category_assigned_to_users
+										   WHERE expenses_category_assigned_to_users.user_id = $user_id");
+				
+				
+			$sum= $expenses_planned_summed -> fetch_assoc(); 
+			$sum= $sum['sum']; 
+			return $sum;
+
 		}
 		catch(Exception $e)
 		{

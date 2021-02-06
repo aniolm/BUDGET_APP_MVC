@@ -1,12 +1,14 @@
 <script>
    var ctx = document.getElementById("budgetChart");
+   if (ctx !== null)
+   {
    var budgetChart = new Chart(ctx, {
     type: 'doughnut',
     data: {
         labels: ["Spent", "Left"],
         datasets: [{
             label: '# Budget',
-            data: [28.3, 71.7],
+            data: [{{ budget_spent_percentage |number_format(0)}}, {{ (100-budget_spent_percentage) |number_format(0)}}],
             backgroundColor: [
                 '#9DF2A3',               
                 '#ffffff'
@@ -36,7 +38,7 @@
         },
 		elements: {
 			center: {
-					text: '28.3%',
+					text: '{{ budget_spent_percentage |number_format(0)}}%',
 					color: '#49704C', // Default is #000000
 					fontStyle: 'Open Sans,sans-serif', // Default is Arial
 					sidePadding: 20, // Default is 20 (as a percentage)
@@ -46,7 +48,7 @@
 		}
     }
     });
-
+	}
 
 Chart.pluginService.register({
   beforeDraw: function(chart) {
@@ -131,6 +133,8 @@ Chart.pluginService.register({
     }
   }
 });
+
+
 </script>
 
 

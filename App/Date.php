@@ -12,7 +12,7 @@ class Date
 
 	
 	/**
-     * Sets the 
+     * Sets star and end date to current month
      *
      * @return void
      */
@@ -22,6 +22,15 @@ class Date
 		$_SESSION['end_date'] = date('Y-m-d', mktime(0, 0, 0, date('m')+1, 0, date('Y')));		
 	}
 	
+	/**
+     * Gets the actual date
+     *
+     * @returns current date
+     */
+	 public static function get_date()
+	{
+		return date('Y-m-d');		
+	}
 
 	public static function change_date($time_window, $start_date, $end_date )
 	{
