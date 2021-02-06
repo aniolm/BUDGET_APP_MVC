@@ -20,13 +20,13 @@
 				<h3><hr></h3>
 			</div>
 			<div class="text-center">
-				Incomes: 6000PLN
+				Incomes: {{ incomes_planned_summed }}PLN
 			</div>
 			<div class="text-center">
-				Expenses: 1600PLN
+				Expenses: {{ expenses_planned_summed }}PLN
 			</div>
 			<div class="text-center mb-3">
-				To be disposed: 4400PLN
+				To be disposed: {{ (incomes_planned_summed - expenses_planned_summed ) |number_format(2, '.', '')}}PLN
 			</div>
 			<div>
 				<h4>Actual budget</h4>
@@ -41,7 +41,7 @@
 				Expenses: {{ expenses_summed }}PLN
 			</div>
 			<div class="text-center">
-				To be spent: {{ incomes_summed - expenses_summed  }}PLN
+				To be spent: {{ ( incomes_summed - expenses_summed  ) |number_format(2, '.', '')}}PLN
 			</div>
 			{% if incomes_summed > expenses_summed %}
 			<div class="text-center my-3 alert-success">
@@ -91,10 +91,10 @@
 				{% for category in income_categories_summed %}
 				<tr>
 		         <td class="cat_income">{{ category.name }} </td>
-		         <td class="cat_income">0</td>
-		         <td class="cat_income">{{ category.earned }} </td>
-				 <td class="cat_income">0</td>
-				 <td class="cat_income">0</td>
+		         <td class="cat_income">{{ category.planned }}PLN </td>
+		         <td class="cat_income">{{ category.earned }}PLN</td>
+				 <td class="cat_income">{{ (category.earned - category.planned ) |number_format(2, '.', '')}}PLN</td>
+				 <td class="cat_income">{{ ((category.earned / incomes_summed) *100 ) |number_format(0)}}%</td>
 				</tr>				
 				{% endfor %}
 			</tbody>
@@ -128,10 +128,10 @@
 				{% for category in expense_categories_summed %}
 				<tr>
 		         <td class="cat_expense">{{ category.name }} </td>
-		         <td class="cat_expense">0</td>
-		         <td class="cat_expense">{{ category.spent }} </td>
-				 <td class="cat_expense">0</td>
-				 <td class="cat_expense">0</td>
+		         <td class="cat_expense">{{ category.planned }}PLN</td>
+		         <td class="cat_expense">{{ category.spent }}PLN </td>
+				 <td class="cat_expense">{{ ( category.planned - category.spent ) |number_format(2, '.', '')}}PLN</td>
+				 <td class="cat_expense">{{ ((category.spent / incomes_summed) *100) |number_format(0) }}%</td>
 				</tr>				
 				{% endfor %}
 	

@@ -3,8 +3,10 @@
 namespace App\Controllers;
 
 use \Core\View;
+use \App\Date;
 use \App\Models\Income;
 use \App\Models\Expense;
+use \App\Models\Budget;
 
 /**
  * Home controller
@@ -23,12 +25,25 @@ class Home extends \Core\Controller
     {
         if (isset($_SESSION['id'])) 
 		{
+		   $date = Date::get_date();
 		   $income_categories_summed = Income::sum_by_category($_SESSION['start_date'],$_SESSION['end_date']);
 		   $expense_categories_summed = Expense::sum_by_category($_SESSION['start_date'],$_SESSION['end_date']);
 		   $incomes_summed = Income::sum_all($_SESSION['start_date'],$_SESSION['end_date']);
 		   $expenses_summed = Expense::sum_all($_SESSION['start_date'],$_SESSION['end_date']);
+		   $incomes_planned_summed = Income::sum_all_planned();
+		   $expenses_planned_summed = Expense::sum_all_planned();
+		   $budget_spent_percentage = Budget::calculate_percent($expenses_summed, $incomes_summed);
+		   $render_budget_chart = true;
 		   $_SESSION['return_to'] = $_SERVER['REQUEST_URI'];
-           View::renderTemplate('Home/index.html', ['income_categories_summed'=>$income_categories_summed, 'expense_categories_summed'=>$expense_categories_summed, 'incomes_summed'=>$incomes_summed, 'expenses_summed'=>$expenses_summed]);
+           View::renderTemplate('Home/index.html', [ 'date' => $date,
+													'income_categories_summed'=>$income_categories_summed, 
+													'expense_categories_summed'=>$expense_categories_summed, 
+													'incomes_summed'=>$incomes_summed, 
+													'expenses_summed'=>$expenses_summed,
+													'incomes_planned_summed'=>$incomes_planned_summed,
+													'expenses_planned_summed'=>$expenses_planned_summed,
+													'budget_spent_percentage'=>$budget_spent_percentage, 
+													'render_budget_chart' => $render_budget_chart]);
 		}	 
 		else
 		{

@@ -4,7 +4,7 @@
 
     <section class="container">
 	<div class="row mb-3">
-		<h6 class="text-responsive ml-auto mr-auto">({{ session.start_date }} - {{ session.end_date }})</h6>
+		<h6 class="ml-auto mr-auto">({{ session.start_date }} - {{ session.end_date }})</h6>
 	</div>
 	<div class="row mb-3">		
 		<h2>Expenses</h2>
@@ -21,7 +21,7 @@
 				<h3><hr></h3>
 			</div>
 			<div class="text-center h4">
-				6000PLN
+				{{ expenses_planned_summed }}PLN
 			</div>
 			
 			<div>
@@ -40,7 +40,7 @@
 				<h3><hr></h3>
 			</div>
 			<div class="text-center h4">
-				0PLN
+				{{ (expenses_planned_summed - expenses_summed) |number_format(2, '.', '') }}PLN
 			</div>
 		</div>
 		<div class="col-sm-6">
@@ -53,8 +53,8 @@
 		
 			<h2>Expenses</h2>
 			<div class="btn-group ml-auto" role="group">
-			<a class="btn btn-success" href="income.html" data-toggle="modal" data-target="#addincome">+</a>
-			<a class="btn btn-success" href="income.html" data-toggle="modal" data-target="#delincome">-</a>
+			<a class="btn btn-success" href="income.html" data-toggle="modal" data-target="#addexpense">+</a>
+			<a class="btn btn-success" href="income.html" data-toggle="modal" data-target="#delexpense">-</a>
 			</div>
 	</div>
     
