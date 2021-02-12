@@ -115,21 +115,8 @@ class Income extends \Core\Model
 										   INNER JOIN incomes_category_assigned_to_users ON incomes.income_category_assigned_to_user_id = incomes_category_assigned_to_users.id
 										   WHERE incomes.date_of_income BETWEEN '$start_date' AND '$end_date' AND incomes.user_id = $user_id AND incomes_category_assigned_to_users.user_id = $user_id
 										   ORDER BY incomes.date_of_income");
-			if ($incomes->num_rows > 0)
-				{	
-				
-					return $incomes;
-				}
-			else
-				{
-					throw new Exception($connection->error);
-				}
-					
-			
-				
-			$connection->close();
-			
-			
+			return $incomes;
+						
 		}
 		catch(Exception $e)
 		{
@@ -151,22 +138,14 @@ class Income extends \Core\Model
 		{
 			$connection = static::getDB();
 		    $user_id = $_SESSION['id'];			
-			$categories_summed = $connection->query("SELECT incomes_category_assigned_to_users.name, incomes_category_assigned_to_users.planned, sum(incomes.amount) as earned  
+			$categories_summed = $connection->query("SELECT incomes_category_assigned_to_users.name, incomes_category_assigned_to_users.planned, incomes_category_assigned_to_users.color, sum(incomes.amount) as earned  
 			                               FROM incomes
 										   INNER JOIN incomes_category_assigned_to_users ON incomes.income_category_assigned_to_user_id = incomes_category_assigned_to_users.id
 										   WHERE incomes.date_of_income BETWEEN '$start_date' AND '$end_date' AND incomes.user_id = $user_id AND incomes_category_assigned_to_users.user_id = $user_id
 										   GROUP BY income_category_assigned_to_user_id");
-				
-				
-			//while ($row = $result -> fetch_assoc()) {
-            //$categories_summed[] = $row;
-            //}
 			
 			return $categories_summed;
-				
-			$connection->close();
-			
-			
+					
 		}
 		catch(Exception $e)
 		{
@@ -195,10 +174,9 @@ class Income extends \Core\Model
 				
 			$sum= $incomes_summed -> fetch_assoc(); 
 			$sum= $sum['sum']; 
-			return $sum;
-				
-			$connection->close();
 			
+			return $sum;
+					
 			
 		}
 		catch(Exception $e)
@@ -239,4 +217,29 @@ class Income extends \Core\Model
 			
 		}
 	}
+	
+	/**
+     * Delete income based on given ID 
+     *
+     * @return sum as string 
+     */
+	
+	public static function delete($id)
+	{
+		try 
+		{
+			$connection = static::getDB();	
+			$connection->query("DELETE 
+			                    FROM incomes
+								WHERE incomes.id = $id");
+				
+		}
+		catch(Exception $e)
+		{
+			echo '<span style="color:red;">Server error! Please try again later!</span>';
+			echo '<br />Developer information: '.$e;
+			
+		}
+	}
+	
 }

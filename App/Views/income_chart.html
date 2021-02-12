@@ -3,27 +3,13 @@ var ctx2 = document.getElementById("incomeChart");
    var incomeChart = new Chart(ctx2, {
     type: 'doughnut',
     data: {
-        labels: ["Sallary", "Bonus money" ,"Earned interest", "Rental property", "Sold items", "Others" ],
+        labels: [{% for category in categories_summed %} {% if not loop.first %},{% endif %} "{{ category.name }}"{% endfor %} ],
 			
         datasets: [{
             label: '# Incomes',
             data: [ {% for category in categories_summed %} {% if not loop.first %},{% endif %} {{ category.earned }}{% endfor %}],
-            backgroundColor: [
-                '#B6C7F2',               
-                '#9DF2A3',
-				'#F285AF',
-				'#F2D691',
-				'#F2EE85',
-				'#F57A71'
-            ],
-            borderColor: [
-                '#49704C',                
-                '#49704C',
-				'#49704C',                
-                '#49704C',
-				'#49704C',                
-                '#49704C'
-            ],
+            backgroundColor: [{% for category in categories_summed %} {% if not loop.first %},{% endif %} '{{ category.color }}'{% endfor %}],
+            borderColor: [{% for category in categories_summed %} {% if not loop.first %},{% endif %} '#49704C'{% endfor %}],
             borderWidth: 1
         }],
 		

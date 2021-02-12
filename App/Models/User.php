@@ -239,6 +239,9 @@ class User extends \Core\Model
         return false;
     }
 	
+	
+	
+	
 	public static function logout()
     {
         // Unset all of the session variables

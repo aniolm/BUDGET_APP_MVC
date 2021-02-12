@@ -5,7 +5,7 @@ namespace App\Controllers;
 use \Core\View;
 use \App\Date;
 use \App\Models\Income;
-
+use \App\Models\Setting;
 
 /**
  * Incomes controller
@@ -32,12 +32,14 @@ class Incomes extends \Core\Controller
 			$incomes_summed = Income::sum_all($_SESSION['start_date'],$_SESSION['end_date']);
 			$incomes_planned_summed = Income::sum_all_planned();
 			$_SESSION['return_to'] = $_SERVER['REQUEST_URI'];
+			$income_categories = Setting::get_income_categories();
 			$render_income_chart = true;
 			View::renderTemplate('Income/index.html', [ 'date' => $date,
 														'incomes'=>$incomes, 
 														'categories_summed'=>$categories_summed, 
 														'incomes_summed'=>$incomes_summed, 
 														'incomes_planned_summed'=>$incomes_planned_summed,
+														'income_categories'=>$income_categories,
 														'render_income_chart' => $render_income_chart]);
 		}
 		else
@@ -65,6 +67,17 @@ class Incomes extends \Core\Controller
 	
     }
 	
+	/**
+     * Delete income
+     *
+     * @return void
+     */
+	public function deleteAction($id)
+    {
+        
+		Income::delete($id);
+		$this->redirect('/incomes/index');
 	
+    }
     
 }

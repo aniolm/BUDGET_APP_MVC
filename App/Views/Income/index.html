@@ -8,8 +8,8 @@
 	<h6 class="ml-auto mr-auto">({{ session.start_date }} - {{ session.end_date }})</h6>
 	</div>
 	<div class="row mb-3">		
-		<h2>Incomes </h2>	
-		<a class="btn btn-success ml-auto" href="income.html" data-toggle="modal" data-target="#pickdate">Change dates</a>
+		<h3>Incomes </h3>	
+		<a class="btn btn-success ml-auto" href="income.html" data-toggle="modal" data-target="#pickdate"><i class="far fa-calendar-alt"></i></a>
 	</div>
 	
 	<div class="row">
@@ -54,11 +54,10 @@
 	</section>
 	<section class="container">
 	<div class="row my-3">
-		
-			<h2>Incomes</h2>
+			
+			<h3>Incomes</h3>
 			<div class="btn-group ml-auto" role="group">
-			<a class="btn btn-success" href="income.html" data-toggle="modal" data-target="#addincome">+</a>
-			<a class="btn btn-success" href="income.html" data-toggle="modal" data-target="#delincome">-</a>
+			<a class="btn btn-success" href="income.html" data-toggle="modal" data-target="#addincome"><i class="fas fa-plus"></i></a>
 			</div>
 	</div>
     
@@ -69,21 +68,21 @@
 		<table>
 			<thead class="thead-dark">
 				<tr>
-					<th>Id</th>
 					<th>Category</th>
 					<th>Description</th>
 					<th>Date</th>
 					<th>Amount</th>
+					<th>Delete</th>
 				</tr>
 			</thead>
 			<tbody>
 				{% for income in incomes %}
 				<tr>
-		         <td class="income">{{ income.id }}</td>
 		         <td class="income">{{ income.name}}</td>
 		         <td class="income">{{ income.income_comment }}</td>
 				 <td class="income">{{ income.date_of_income }}</td>
 				 <td class="income">{{ income.amount }}PLN</td>
+				 <td class="income"><a class="btn btn-xs btn-danger btn_delete" href="/incomes/{{ income.id }}/delete"name="delete_btn" onclick="return confirm('Are you sure?')"><i class="fas fa-trash-alt"></i></a></td>
 				</tr>				
 				{% endfor %}
 			</tbody>

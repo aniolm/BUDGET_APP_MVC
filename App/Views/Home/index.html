@@ -7,8 +7,8 @@
 		<h6 class="ml-auto mr-auto">({{ session.start_date }} - {{ session.end_date }})</h6>
 	</div>
 	<div class="row mb-3">		
-		<h2>Budget</h2>		
-       	<a class="btn btn-success ml-auto" href="income.html" data-toggle="modal" data-target="#pickdate">Change dates</a>
+		<h3>Budget</h3>		
+       	<a class="btn btn-success ml-auto" href="income.html" data-toggle="modal" data-target="#pickdate"><i class="far fa-calendar-alt"></i></a>
 	</div>
 	
 	<div class="row">
@@ -66,11 +66,10 @@
 	<section class="container">
 	<div class="row my-3">
 		
-			<h2>Incomes</h2>
+			<h3>Incomes</h3>
 			<div class="btn-group ml-auto" role="group">
-			<a class="btn btn-success" href="income.html" data-toggle="modal" data-target="#addincome">+</a>
-			<a class="btn btn-success" href="income.html" data-toggle="modal" data-target="#delincome">-</a>
-		    <a class="btn btn-success" href="/incomes/index">Details</a>
+			<a class="btn btn-success" href="income.html" data-toggle="modal" data-target="#addincome"><i class="fas fa-plus"></i></a>
+		    <a class="btn btn-success" href="/incomes/index"><i class="fas fa-search"></i></a>
 			</div>
 	</div>
     
@@ -90,11 +89,11 @@
 			<tbody>
 				{% for category in income_categories_summed %}
 				<tr>
-		         <td class="cat_income">{{ category.name }} </td>
-		         <td class="cat_income">{{ category.planned }}PLN </td>
-		         <td class="cat_income">{{ category.earned }}PLN</td>
-				 <td class="cat_income">{{ (category.earned - category.planned ) |number_format(2, '.', '')}}PLN</td>
-				 <td class="cat_income">{{ ((category.earned / incomes_summed) *100 ) |number_format(0)}}%</td>
+		         <td class="cat_sum_income">{{ category.name }} </td>
+		         <td class="cat_sum_income">{{ category.planned }}PLN </td>
+		         <td class="cat_sum_income">{{ category.earned }}PLN</td>
+				 <td class="cat_sum_income">{{ (category.earned - category.planned ) |number_format(2, '.', '')}}PLN</td>
+				 <td class="cat_sum_income">{{ ((category.earned / incomes_summed) *100 ) |number_format(0)}}%</td>
 				</tr>				
 				{% endfor %}
 			</tbody>
@@ -104,11 +103,10 @@
 	<section class="container">
 	<div class="row my-3">
 		
-			<h2>Expenses</h2>
+			<h3>Expenses</h3>
 		    <div class="btn-group ml-auto" role="group">
-				<a class="btn btn-success" href="expense.html" data-toggle="modal" data-target="#addexpense">+</a>
-				<a class="btn btn-success" href="expense.html" data-toggle="modal" data-target="#delexpense">-</a>
-				<a class="btn btn-success" href="/expenses/index">Details</a>
+				<a class="btn btn-success" href="expense.html" data-toggle="modal" data-target="#addexpense"><i class="fas fa-plus"></i></a>
+				<a class="btn btn-success" href="/expenses/index"><i class="fas fa-search"></i></a>
 			</div>
 	</div>
 
@@ -127,11 +125,13 @@
 				<tbody>
 				{% for category in expense_categories_summed %}
 				<tr>
-		         <td class="cat_expense">{{ category.name }} </td>
-		         <td class="cat_expense">{{ category.planned }}PLN</td>
-		         <td class="cat_expense">{{ category.spent }}PLN </td>
-				 <td class="cat_expense">{{ ( category.planned - category.spent ) |number_format(2, '.', '')}}PLN</td>
-				 <td class="cat_expense">{{ ((category.spent / incomes_summed) *100) |number_format(0) }}%</td>
+		         <td class="cat_sum_expense">{{ category.name }} </td>
+		         <td class="cat_sum_expense">{{ category.planned }}PLN</td>
+		         <td class="cat_sum_expense">{{ category.spent }}PLN </td>
+				 <td class="cat_sum_expense">{{ ( category.planned - category.spent ) |number_format(2, '.', '')}}PLN</td>
+				 <td class="cat_sum_expense">{% if incomes_summed > 0 %} {{ ((category.spent / incomes_summed) *100) |number_format(0) }}%
+										 {% else %} {{ 0 |number_format(0) }}%
+										 {% endif %}</td>
 				</tr>				
 				{% endfor %}
 	

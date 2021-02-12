@@ -17,12 +17,9 @@
 			<div class="form-group">
 			<label for="category"><b>Category</b></label>
 			<select class="form-control"  name="category" required>
-				<option value="1">Sallary</option>
-				<option value="2">Bonus money</option>
-				<option value="3">Earned interest</option>
-				<option value="4">Rental property</option>
-				<option value="5">Sold items</option>
-				<option value="6">Others</option>				
+				{% for category in income_categories %}
+				<option value="{{ category.id }}">{{ category.name }}</option>				
+				{% endfor %}							
 			</select>
 			</div>
 			<div class="form-group">
