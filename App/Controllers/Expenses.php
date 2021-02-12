@@ -61,6 +61,19 @@ class Expenses extends \Core\Controller
         } 
 	
     }
+	
+	/**
+     * Delete expense
+     *
+     * @return void
+     */
+	public function deleteAction($id)
+    {
+        
+		Expense::delete($id);
+		$this->redirect('/expenses/index');
+	
+    }
 
 
 }

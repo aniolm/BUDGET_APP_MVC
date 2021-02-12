@@ -6,46 +6,14 @@
    var expenseChart = new Chart(ctx3, {
     type: 'doughnut',
     data: {
-        labels: ["Food", "Transport", "Bills", "Healthcare", "Clothing", "Hygene", "Kids", "Amusement", "Training", "Books", "Savings", "Pension", "Debts", "Charity", "Others"],
+        labels: [{% for category in categories_summed %} {% if not loop.first %},{% endif %} "{{ category.name }}"{% endfor %}],
         datasets: [{
             label: '# Expenses',
            
             data: [ {% for category in categories_summed %} {% if not loop.first %},{% endif %} {{ category.spent }}{% endfor %}],    
 			
-            backgroundColor: [
-                '#B6C7F2',               
-                '#9DF2A3',
-				'#F285AF',
-				'#F2D691',
-				'#F2EE85',
-				'#F57A71',
-				'#F2EECB',               
-                '#F2BEB4',
-				'#9BF2D0',
-				'#9F87F5',
-				'#E79BF2',
-				'#F2E0CB',
-				'#74D2F5',               
-                '#C7F29B',
-				'#F5B584'
-            ],
-            borderColor: [
-                '#49704C',                
-                '#49704C',
-				'#49704C',                
-                '#49704C',
-				'#49704C',                
-                '#49704C',
-				'#49704C',                
-                '#49704C',
-				'#49704C',                
-                '#49704C',
-				'#49704C',                
-                '#49704C',
-				'#49704C',
-				'#49704C',                
-                '#49704C'
-            ],
+            backgroundColor: [{% for category in categories_summed %} {% if not loop.first %},{% endif %} '{{ category.color }}'{% endfor %}],
+            borderColor: [{% for category in categories_summed %} {% if not loop.first %},{% endif %} '#49704C'{% endfor %}],
             borderWidth: 1
         }],
 		

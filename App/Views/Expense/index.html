@@ -7,8 +7,8 @@
 		<h6 class="ml-auto mr-auto">({{ session.start_date }} - {{ session.end_date }})</h6>
 	</div>
 	<div class="row mb-3">		
-		<h2>Expenses</h2>
-		<a class="btn btn-success ml-auto" href="income.html" data-toggle="modal" data-target="#pickdate">Change dates</a>
+		<h3>Expenses</h3>
+		<a class="btn btn-success ml-auto" href="income.html" data-toggle="modal" data-target="#pickdate"><i class="far fa-calendar-alt"></i></a>
 		</form>
 	</div>
 	
@@ -51,10 +51,9 @@
 	<section class="container">
 	<div class="row my-3">
 		
-			<h2>Expenses</h2>
+			<h3>Expenses</h3>
 			<div class="btn-group ml-auto" role="group">
-			<a class="btn btn-success" href="income.html" data-toggle="modal" data-target="#addexpense">+</a>
-			<a class="btn btn-success" href="income.html" data-toggle="modal" data-target="#delexpense">-</a>
+			<a class="btn btn-success" href="income.html" data-toggle="modal" data-target="#addexpense"><i class="fas fa-plus"></i></a>
 			</div>
 	</div>
     
@@ -64,21 +63,25 @@
 		<table>
 			<thead>
 				<tr>
-					<th>Id</th>
 					<th>Category</th>
 					<th>Description</th>
 					<th>Date</th>
+					<th>Payment</th>
 					<th>Amount</th>
+					<th>Delete</th>
 				</tr>
 			</thead>
 			<tbody>
 				{% for expense in expenses %}
 				<tr>
-		         <td class="expense">{{ expense.id }}</td>
-		         <td class="expense">{{ expense.name}}</td>
+		         
+		         <td class="expense">{{ expense.category}}</td>
 		         <td class="expense">{{ expense.expense_comment }}</td>
 				 <td class="expense">{{ expense.date_of_expense }}</td>
-				 <td class="expense">{{ expense.amount }}</td>
+				 <td class="expense">{{ expense.pmethod }}</td>
+				 <td class="expense">{{ expense.amount }}PLN</td>
+				 <td class="expense"><a class="btn btn-xs btn-danger btn_delete" href="/expenses/{{ expense.id }}/delete" name="delete_btn" onclick="return confirm('Are you sure?')"><i class="fas fa-trash-alt"></i></a></td>
+				 
 				</tr>				
 				{% endfor %}
 			</tbody>

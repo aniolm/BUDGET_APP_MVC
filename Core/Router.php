@@ -118,8 +118,11 @@ class Router
                 $action = $this->convertToCamelCase($action);
 
                 if (preg_match('/action$/i', $action) == 0) {
-                    $controller_object->$action();
-
+					if (isset($this->params['id'])) {
+                    $controller_object->$action($this->params['id']);
+					} else {
+						$controller_object->$action();
+					}
                 } else {
                     throw new \Exception("Method $action in controller $controller cannot be called directly - remove the Action suffix to call this method");
                 }

@@ -111,16 +111,14 @@ class Expense extends \Core\Model
 		{
 			$connection = static::getDB();
 		    $user_id = $_SESSION['id'];			
-			$expenses = $connection->query("SELECT expenses.id,  expenses_category_assigned_to_users.name, expenses.expense_comment, expenses.amount, expenses.date_of_expense
+			$expenses = $connection->query("SELECT expenses.id,  expenses_category_assigned_to_users.name AS category, expenses.expense_comment, expenses.amount, payment_methods_assigned_to_users.name AS pmethod, expenses.date_of_expense
 			                               FROM expenses
 										   INNER JOIN expenses_category_assigned_to_users ON expenses.expense_category_assigned_to_user_id = expenses_category_assigned_to_users.id
-										   WHERE expenses.date_of_expense BETWEEN '$start_date' AND '$end_date' AND expenses.user_id = $user_id AND expenses_category_assigned_to_users.user_id = $user_id
+										   INNER JOIN payment_methods_assigned_to_users ON expenses.payment_method_assigned_to_user_id = payment_methods_assigned_to_users.id
+										   WHERE expenses.date_of_expense BETWEEN '$start_date' AND '$end_date' AND expenses.user_id = $user_id AND expenses_category_assigned_to_users.user_id = $user_id AND payment_methods_assigned_to_users.user_id = $user_id
 										   ORDER BY expenses.date_of_expense");
 			
-			return $expenses;
-
-			$connection->close();
-			
+			return $expenses;			
 			
 		}
 		catch(Exception $e)
@@ -143,17 +141,12 @@ class Expense extends \Core\Model
 		{
 			$connection = static::getDB();
 		    $user_id = $_SESSION['id'];			
-			$expenses_summed = $connection->query("SELECT expenses_category_assigned_to_users.name, expenses_category_assigned_to_users.planned, sum(expenses.amount) as spent 
+			$expenses_summed = $connection->query("SELECT expenses_category_assigned_to_users.name, expenses_category_assigned_to_users.planned, expenses_category_assigned_to_users.color, sum(expenses.amount) as spent 
 			                               FROM expenses
 										   INNER JOIN expenses_category_assigned_to_users ON expenses.expense_category_assigned_to_user_id = expenses_category_assigned_to_users.id
 										   WHERE expenses.date_of_expense BETWEEN '$start_date' AND '$end_date' AND expenses.user_id = $user_id AND expenses_category_assigned_to_users.user_id = $user_id
 										   GROUP BY expense_category_assigned_to_user_id");
 				
-				
-			//while ($row = $result -> fetch_assoc()) {
-            //$results[] = $row;
-            //}
-			
 			return $expenses_summed;
 			
 		}
@@ -218,6 +211,30 @@ class Expense extends \Core\Model
 			$sum= $sum['sum']; 
 			return $sum;
 
+		}
+		catch(Exception $e)
+		{
+			echo '<span style="color:red;">Server error! Please try again later!</span>';
+			echo '<br />Developer information: '.$e;
+			
+		}
+	}
+	
+	/**
+     * Delete expense based on given ID 
+     *
+     * @return sum as string 
+     */
+	
+	public static function delete($id)
+	{
+		try 
+		{
+			$connection = static::getDB();	
+			$connection->query("DELETE 
+			                    FROM expenses
+								WHERE expenses.id = $id");
+				
 		}
 		catch(Exception $e)
 		{

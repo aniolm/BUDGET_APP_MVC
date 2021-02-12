@@ -1,0 +1,36 @@
+
+	<div class="modal fade" id="editcategory" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit category</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/settings/edit" method="post" id="form">
+			
+			<div class="form-group">
+			<label for="description"><b>Name</b></label>
+			<input class="form-control" id="name" type="text" placeholder="Enter new name" name="name" value="">
+			</div>
+			<div class="form-group">
+			<label for="description"><b>Color</b></label>
+			<input class="form-control" id="color" type="color" placeholder="Enter new color" name="color" value="">
+			</div>
+		    <div class="form-group">
+			<label for="amount"><b>Planned</b></label>
+			<input class="form-control" id="planned" type="number" step="0.01" min=”0″ placeholder="00.00" name="planned" value="">
+			</div>
+		
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-success" id="submit">Save</button>
+      </div>
+	  </form>
+    </div>
+	</div>
+	</div>
+	
