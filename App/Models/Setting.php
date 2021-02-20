@@ -78,7 +78,7 @@ class Setting extends \Core\Model
 	$name = $this->name;
 	$planned = floatval($this->planned);
 	$color= $this->color;
-	if($type == true)
+	if($type === true)
 	{
 		$table = "incomes";
 	}
@@ -97,6 +97,7 @@ class Setting extends \Core\Model
 										WHERE ".$table."_category_assigned_to_users.user_id = $id_user AND ".$table."_category_assigned_to_users.id = $id"))
 				{
 					return true;
+					$connection->close();
 				}
 				else
 				{

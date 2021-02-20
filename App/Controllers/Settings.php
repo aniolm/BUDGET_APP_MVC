@@ -5,6 +5,7 @@ namespace App\Controllers;
 use \Core\View;
 use \App\Date;
 use \App\Models\Setting;
+use \App\Models\User;
 
 /**
  * Settings controller
@@ -24,10 +25,11 @@ class Settings extends \Core\Controller
     {        		
 		if (isset($_SESSION['id'])) 
 		{
+			$user_data = User::findById($_SESSION['id']);
 			$income_categories = Setting::get_income_categories();
 			$expense_categories = Setting::get_expense_categories();
 			$_SESSION['return_to'] = $_SERVER['REQUEST_URI'];
-			View::renderTemplate('Settings/index.html', [ 'income_categories' => $income_categories , 'expense_categories' => $expense_categories]);
+			View::renderTemplate('Settings/index.html', [ 'user_data' => $user_data ,'income_categories' => $income_categories , 'expense_categories' => $expense_categories ]);
 		}
 		else
 		{
@@ -43,21 +45,32 @@ class Settings extends \Core\Controller
     
 	public function editincomeAction($id)
     {
-		
 		$setting = new Setting($_POST);
 		if($setting->edit($id, true))
-		{		 
-		 $this->redirect($_SESSION['return_to']);
+		{	
+		 $income_categories = Setting::get_income_categories();
+		 $expense_categories = Setting::get_expense_categories();
+		 $user_data = User::findById($_SESSION['id']);		 
+		 View::renderBlock('Settings/index.html', 'content', [ 'user_data' => $user_data, 'income_categories' => $income_categories , 'expense_categories' => $expense_categories]);
 		}
     }
 	
+	/**
+     * Edit expense category
+     *
+     * @return void
+     */
+	 
 	public function editexpenseAction($id)
     {
 		
 		$setting = new Setting($_POST);
 		if($setting->edit($id, false))
 		{		 
-		 $this->redirect($_SESSION['return_to']);
+		 $income_categories = Setting::get_income_categories();
+		 $expense_categories = Setting::get_expense_categories();
+		 $user_data = User::findById($_SESSION['id']);
+		 View::renderBlock('Settings/index.html', 'content', [ 'user_data' => $user_data, 'income_categories' => $income_categories , 'expense_categories' => $expense_categories]);
 		}
     }
 	

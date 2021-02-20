@@ -3,19 +3,45 @@
 {% block content %}
 
     <section class="container">
-	<div class="row mb-3">		
-		<h3>User</h3>		
+	<div class="row">		
+		<h4>User</h4>		
 	</div>
 	
-	<div class="row">
-		
+	<div class="row">	
+		<div class="col-sm-6">
+		<img class="mx-auto my-auto d-block" src="/img/user.svg" alt="User image" width="180" height="180">
+		</div>
+		<div class="card col-sm-6 p-3">
+		{% for user in user_data %}
+			<div class="h5 text-center">
+				User Id: {{ user.id }}
+			</div>
+			<div>
+				<h3><hr></h3>
+			</div>
+			
+			<div class="h5 text-center">
+				Username: {{ user.username }}
+			</div>
+			<div>
+				<h3><hr></h3>
+			</div>
+			
+			<div class="h5 text-center mb-4">
+				E-mail: {{ user.email }}
+			</div>
+			
+			
+		<button class="btn btn-warning btn-xs btn_edit" type="button" name="edit"   data-toggle="modal" data-target="#edituser" data-id="{{ user.id }}" data-name="{{ user.name }}"  data-email="{{ user.email }}"><i class="fas fa-user-edit"></i></button>
+		{% endfor %}
+		</div>
 	</div>
 	</section>
 	
 	<section class="container">
-	<div class="row my-3">
+	<div class="row my-4">
 		
-			<h3>Income categories</h3>
+			<h4>Income categories</h4>
 			<div class="btn-group ml-auto" role="group">
 			<a class="btn btn-success" href="income.html" data-toggle="modal" data-target="#addincome">+</a>
 			</div>
@@ -39,9 +65,9 @@
 				<tr>
 		         <td class="cat_income">{{ category.name }} </td>
 		         <td class="cat_income">{{ category.planned }}PLN </td>
-		         <td class="cat_income" style="background-color:{{ category.color }}"></td>
-				 <td class="cat_income"><button type="button" name="editincome"  class="btn btn-warning btn-xs" data-toggle="modal" data-target="#editcategory" data-id="{{ category.id }}" data-name="{{ category.name }}"  data-planned="{{ category.planned }}" data-color="{{ category.color }}"><i class="far fa-edit"></i></button>
-				 <td class="income"><a class="btn btn-xs btn-danger btn_delete" href="/settings/{{ category.id }}/delete" name="delete_btn" onclick="return confirm('Are you sure?')"><i class="fas fa-trash-alt"></i></a></td>
+		         <td class="cat_income" style="background-color:{{ category.color }}">{{ category.color }}</td>
+				 <td class="cat_income"><button class="btn btn-warning btn-xs btn_edit" type="button" name="editincome"   data-toggle="modal" data-target="#editcategory" data-id="{{ category.id }}" data-name="{{ category.name }}"  data-planned="{{ category.planned }}" data-color="{{ category.color }}"><i class="far fa-edit"></i></button>
+				 <td class="cat_income"><a class="btn btn-xs btn-danger btn_delete" href="/settings/{{ category.id }}/delete" name="delete_btn" onclick="return confirm('Are you sure?')"><i class="fas fa-trash-alt"></i></a></td>
 				</tr>				
 				{% endfor %}
 			</tbody>
@@ -49,9 +75,9 @@
 	</div>
 	</section>
 	<section class="container">
-	<div class="row my-3">
+	<div class="row my-4">
 		
-			<h3>Expense categories</h3>
+			<h4>Expense categories</h4>
 		    <div class="btn-group ml-auto" role="group">
 				<a class="btn btn-success" href="expense.html" data-toggle="modal" data-target="#addexpense">+</a>
 			</div>
@@ -74,9 +100,9 @@
 				<tr>
 		         <td class="cat_expense">{{ category.name }} </td>
 		         <td class="cat_expense">{{ category.planned }}PLN</td>
-		         <td class="cat_expense" style="background-color:{{ category.color }}"></td>
-				 <td class="cat_expense"><button type="button" name="editexpense" class="btn btn-warning btn-xs " data-toggle="modal" data-target="#editcategory" data-id="{{ category.id }}" data-name="{{ category.name }}" data-planned="{{ category.planned }}" data-color="{{ category.color }}"><i class="far fa-edit"></i></button>
-				 <td class="income"><a class="btn btn-xs btn-danger btn_delete" href="/settings/{{ category.id }}/delete" name="delete_btn" onclick="return confirm('Are you sure?')"><i class="fas fa-trash-alt"></i></a></td>
+		         <td class="cat_expense" style="background-color:{{ category.color }}">{{ category.color }}</td>
+				 <td class="cat_expense"><button class="btn btn-warning btn-xs btn_edit" type="button" name="editexpense"  data-toggle="modal" data-target="#editcategory" data-id="{{ category.id }}" data-name="{{ category.name }}" data-planned="{{ category.planned }}" data-color="{{ category.color }}"><i class="far fa-edit"></i></button>
+				 <td class="cat_expense"><a class="btn btn-xs btn-danger btn_delete" href="/settings/{{ category.id }}/delete" name="delete_btn" onclick="return confirm('Are you sure?')"><i class="fas fa-trash-alt"></i></a></td>
 				</tr>				
 				{% endfor %}
 	
