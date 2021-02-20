@@ -13,47 +13,47 @@
 	
 	<div class="row">
 		<div class="card col-sm-6 p-3">
-			<div>
-				<h4>Planned budget</h4>
+			<div class="h4">
+				Planned budget
 			</div>
 			<div>
 				<h3><hr></h3>
 			</div>
-			<div class="text-center">
+			<div class="text-center h5">
 				Incomes: {{ incomes_planned_summed }}PLN
 			</div>
-			<div class="text-center">
+			<div class="text-center h5">
 				Expenses: {{ expenses_planned_summed }}PLN
 			</div>
-			<div class="text-center mb-3">
+			<div class="text-center mb-3 h5">
 				To be disposed: {{ (incomes_planned_summed - expenses_planned_summed ) |number_format(2, '.', '')}}PLN
 			</div>
-			<div>
-				<h4>Actual budget</h4>
+			<div class="h4">
+				Actual budget
 			</div>
 			<div>
 				<h3><hr></h3>
 			</div>
-			<div class="text-center">
+			<div class="text-center h5">
 				Incomes: {{ incomes_summed }}PLN
 			</div>
-			<div class="text-center">
+			<div class="text-center h5">
 				Expenses: {{ expenses_summed }}PLN
 			</div>
-			<div class="text-center">
+			<div class="text-center h5">
 				To be spent: {{ ( incomes_summed - expenses_summed  ) |number_format(2, '.', '')}}PLN
 			</div>
 			{% if incomes_summed > expenses_summed %}
-			<div class="text-center my-3 alert-success">
-				<h3>Well done. Budget under control.</h3>
+			<div class="text-center my-3 alert-success h3">
+				Well done. Budget under control.
 			</div>	
-			{% elseif (incomes_summed > expenses_summed) and ((incomes_summed - 300) < expenses_summed) %}
-			<div class="text-center my-3 alert-warning">
-				<h3>Yaou are close to the limit!!!</h3>
+			{% elseif ((incomes_summed > expenses_summed) and ((incomes_summed - 300) < expenses_summed)) %}
+			<div class="text-center my-3 alert-warning h3">
+				You are close to the limit!!!
 			</div>	
 			{% else %}
-			<div class="text-center my-3 alert-danger">
-				<h3>Stop spending money!!!</h3>
+			<div class="text-center my-3 alert-danger h3">
+				Stop spending money!!!
 			</div>	
 			{% endif %}
 							

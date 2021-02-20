@@ -192,8 +192,7 @@ class User extends \Core\Model
 		$result = $connection->query("SELECT id, username, password, email FROM users WHERE email='$email'");
 				
 				if (!$result) throw new Exception($connection->error);
-					
-		//$connection->close();
+					;
         return $result;
     }
 	
@@ -212,9 +211,27 @@ class User extends \Core\Model
 				
 				if (!$result) throw new Exception($connection->error);  
 					
-		//$connection->close();	
         return $result;
     }
+	
+	/**
+     * Find a user model by id
+     *
+     * @param string $user to search for
+     *
+     * @return mixed User object if found, false otherwise
+     */
+    public static function findById($id)
+    {
+        $connection = static::getDB();
+		
+		$result = $connection->query("SELECT id, username, password, email FROM users WHERE id='$id'");
+				
+				if (!$result) throw new Exception($connection->error);  
+					
+        return $result;
+    }
+	
 	
 	/**
      //* Authenticate a user by username and password.
