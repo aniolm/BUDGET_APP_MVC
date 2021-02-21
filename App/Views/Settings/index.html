@@ -12,28 +12,27 @@
 		<img class="mx-auto my-auto d-block" src="/img/user.svg" alt="User image" width="180" height="180">
 		</div>
 		<div class="card col-sm-6 p-3">
-		{% for user in user_data %}
+		
 			<div class="h5 text-center">
-				User Id: {{ user.id }}
+				User Id: {{ user_id }}
 			</div>
 			<div>
 				<h3><hr></h3>
 			</div>
 			
 			<div class="h5 text-center">
-				Username: {{ user.username }}
+				Username: {{ username }}
 			</div>
 			<div>
 				<h3><hr></h3>
 			</div>
 			
 			<div class="h5 text-center mb-4">
-				E-mail: {{ user.email }}
-			</div>
-			
+				E-mail: {{ email }}
+			</div>		
 			
 		<button class="btn btn-warning btn-xs btn_edit" type="button" name="edit"   data-toggle="modal" data-target="#edituser" data-id="{{ user.id }}" data-name="{{ user.name }}"  data-email="{{ user.email }}"><i class="fas fa-user-edit"></i></button>
-		{% endfor %}
+		
 		</div>
 	</div>
 	</section>

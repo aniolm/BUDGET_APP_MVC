@@ -35,7 +35,7 @@ class Expense extends \Core\Model
 		$id_payment = intval($this->pmethod);
 		$amount = floatval($this->amount);
 		$description = $this->description;
-		$id_user = $_SESSION['id'];
+		$id_user = $_SESSION['user_id'];
 		
 		
 		try 
@@ -110,7 +110,7 @@ class Expense extends \Core\Model
 		try 
 		{
 			$connection = static::getDB();
-		    $user_id = $_SESSION['id'];			
+		    $user_id = $_SESSION['user_id'];			
 			$expenses = $connection->query("SELECT expenses.id,  expenses_category_assigned_to_users.name AS category, expenses.expense_comment, expenses.amount, payment_methods_assigned_to_users.name AS pmethod, expenses.date_of_expense
 			                               FROM expenses
 										   INNER JOIN expenses_category_assigned_to_users ON expenses.expense_category_assigned_to_user_id = expenses_category_assigned_to_users.id
@@ -140,7 +140,7 @@ class Expense extends \Core\Model
 		try 
 		{
 			$connection = static::getDB();
-		    $user_id = $_SESSION['id'];			
+		    $user_id = $_SESSION['user_id'];			
 			$expenses_summed = $connection->query("SELECT expenses_category_assigned_to_users.name, expenses_category_assigned_to_users.planned, expenses_category_assigned_to_users.color, sum(expenses.amount) as spent 
 			                               FROM expenses
 										   INNER JOIN expenses_category_assigned_to_users ON expenses.expense_category_assigned_to_user_id = expenses_category_assigned_to_users.id
@@ -169,7 +169,7 @@ class Expense extends \Core\Model
 		try 
 		{
 			$connection = static::getDB();
-		    $user_id = $_SESSION['id'];			
+		    $user_id = $_SESSION['user_id'];			
 			$expenses_summed = $connection->query("SELECT sum(expenses.amount) as sum
 			                               FROM expenses
 										   WHERE expenses.date_of_expense BETWEEN '$start_date' AND '$end_date' AND expenses.user_id = $user_id");
@@ -201,7 +201,7 @@ class Expense extends \Core\Model
 		try 
 		{
 			$connection = static::getDB();
-		    $user_id = $_SESSION['id'];			
+		    $user_id = $_SESSION['user_id'];			
 			$expenses_planned_summed = $connection->query("SELECT sum(expenses_category_assigned_to_users.planned) as sum
 			                               FROM expenses_category_assigned_to_users
 										   WHERE expenses_category_assigned_to_users.user_id = $user_id");

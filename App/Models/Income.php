@@ -34,7 +34,7 @@ class Income extends \Core\Model
 		$id_category = intval($this->category);
 		$amount = floatval($this->amount);
 		$description = $this->description;
-		$id_user = $_SESSION['id'];
+		$id_user = $_SESSION['user_id'];
 		
 		
 		try 
@@ -109,7 +109,7 @@ class Income extends \Core\Model
 		try 
 		{
 			$connection = static::getDB();
-		    $user_id = $_SESSION['id'];			
+		    $user_id = $_SESSION['user_id'];			
 			$incomes = $connection->query("SELECT incomes.id,  incomes_category_assigned_to_users.name, incomes.income_comment, incomes.amount, incomes.date_of_income
 			                               FROM incomes
 										   INNER JOIN incomes_category_assigned_to_users ON incomes.income_category_assigned_to_user_id = incomes_category_assigned_to_users.id
@@ -137,7 +137,7 @@ class Income extends \Core\Model
 		try 
 		{
 			$connection = static::getDB();
-		    $user_id = $_SESSION['id'];			
+		    $user_id = $_SESSION['user_id'];			
 			$categories_summed = $connection->query("SELECT incomes_category_assigned_to_users.name, incomes_category_assigned_to_users.planned, incomes_category_assigned_to_users.color, sum(incomes.amount) as earned  
 			                               FROM incomes
 										   INNER JOIN incomes_category_assigned_to_users ON incomes.income_category_assigned_to_user_id = incomes_category_assigned_to_users.id
@@ -166,7 +166,7 @@ class Income extends \Core\Model
 		try 
 		{
 			$connection = static::getDB();
-		    $user_id = $_SESSION['id'];			
+		    $user_id = $_SESSION['user_id'];			
 			$incomes_summed = $connection->query("SELECT sum(incomes.amount) as sum
 			                               FROM incomes
 										   WHERE incomes.date_of_income BETWEEN '$start_date' AND '$end_date' AND incomes.user_id = $user_id");
@@ -199,7 +199,7 @@ class Income extends \Core\Model
 		try 
 		{
 			$connection = static::getDB();
-		    $user_id = $_SESSION['id'];			
+		    $user_id = $_SESSION['user_id'];			
 			$incomes_planned_summed = $connection->query("SELECT sum(incomes_category_assigned_to_users.planned) as sum
 			                               FROM incomes_category_assigned_to_users
 										   WHERE incomes_category_assigned_to_users.user_id = $user_id");

@@ -4,7 +4,8 @@ namespace App\Controllers;
 
 use \Core\View;
 use \App\Models\User;
-use \App\Date;
+
+use \App\Auth;
 
 /**
  * Sign-up controller
@@ -32,24 +33,23 @@ class Login extends \Core\Controller
     public function createAction()
     {
         $user = User::authenticate($_POST['uname'], $_POST['psw']);
+
         
         $remember_me = isset($_POST['remember-me']);
 
-        if ($user) {
-
-            //Auth::login($user, $remember_me);
-			$_SESSION['id'] = $user->id;
-			$_SESSION['username'] = $user->username;
-            Date::set_date();
-			
+        if ($user) 
+		{
+           Auth::login($user, $remember_me);
+           //Date::set_date();
             //$this->redirect(Auth::getReturnToPage());
-			 $this->redirect('/');	
+			$this->redirect('/');	
         } 
 		else 
 		{
 
             View::renderTemplate('Login/new.html');
         }
+		
     }
 
     /**
@@ -59,7 +59,7 @@ class Login extends \Core\Controller
      */
     public function destroyAction()
     {
-        User::logout();
+        Auth::logout();
 
         $this->redirect('/login/new');
     }

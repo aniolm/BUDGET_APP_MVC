@@ -12,10 +12,8 @@ use \App\Models\Setting;
  *
  * PHP version 7.0
  */
-class Incomes extends \Core\Controller
+class Incomes extends Authenticated
 {
-
-
 	
 	/**
      * Show the income page
@@ -24,8 +22,7 @@ class Incomes extends \Core\Controller
      */
     public function indexAction()
     {        		
-		if (isset($_SESSION['id'])) 
-		{
+		
 			$date = Date::get_date();
 			$incomes = Income::get($_SESSION['start_date'],$_SESSION['end_date']);
 			$categories_summed = Income::sum_by_category($_SESSION['start_date'],$_SESSION['end_date']);
@@ -41,11 +38,7 @@ class Incomes extends \Core\Controller
 														'incomes_planned_summed'=>$incomes_planned_summed,
 														'income_categories'=>$income_categories,
 														'render_income_chart' => $render_income_chart]);
-		}
-		else
-		{
-			$this->redirect('/login/new');	
-        } 
+		
     }
 	
 	/**

@@ -14,7 +14,7 @@ use \App\Models\Budget;
  *
  * PHP version 7.0
  */
-class Home extends \Core\Controller
+class Home extends Authenticated
 {
 
     /**
@@ -24,8 +24,7 @@ class Home extends \Core\Controller
      */
     public function indexAction()
     {
-        if (isset($_SESSION['id'])) 
-		{
+       
 		   $date = Date::get_date();
 		   $income_categories_summed = Income::sum_by_category($_SESSION['start_date'],$_SESSION['end_date']);
 		   $expense_categories_summed = Expense::sum_by_category($_SESSION['start_date'],$_SESSION['end_date']);
@@ -49,11 +48,6 @@ class Home extends \Core\Controller
 													'income_categories'=>$income_categories,
 													'expense_categories'=>$expense_categories, 
 													'render_budget_chart' => $render_budget_chart]);
-		}	 
-		else
-		{
-		$this->redirect('/login/new');	
-        } 
 		
     }
 }
