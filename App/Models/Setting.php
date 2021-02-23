@@ -33,7 +33,7 @@ class Setting extends \Core\Model
 		$name = $this->name;
 		$planned = floatval($this->planned);
 		$name = $this->color;
-		$id_user = $_SESSION['id'];
+		$id_user = $_SESSION['user_id'];
 		
 		
 		try 
@@ -73,7 +73,7 @@ class Setting extends \Core\Model
 	 
 	public function edit($id, $type)
     {
-	$id_user = $_SESSION['id'];
+	$id_user = $_SESSION['user_id'];
 	$id = intval($id);
 	$name = $this->name;
 	$planned = floatval($this->planned);
@@ -160,7 +160,7 @@ class Setting extends \Core\Model
 		try 
 		{
 			$connection = static::getDB();
-		    $user_id = $_SESSION['id'];			
+		    $user_id = $_SESSION['user_id'];			
 			$income_categories = $connection->query("SELECT * 
 													FROM incomes_category_assigned_to_users										   
 													WHERE incomes_category_assigned_to_users.user_id = $user_id
@@ -200,7 +200,7 @@ class Setting extends \Core\Model
 		try 
 		{
 			$connection = static::getDB();
-		    $user_id = $_SESSION['id'];			
+		    $user_id = $_SESSION['user_id'];			
 			$expense_categories = $connection->query("SELECT * 
 													FROM expenses_category_assigned_to_users										   
 													WHERE expenses_category_assigned_to_users.user_id = $user_id

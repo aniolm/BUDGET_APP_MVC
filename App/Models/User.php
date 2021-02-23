@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use PDO;
 use mysqli;
+use App\Token;
+use App\Models\User;
 
 /**
  * Example user model
@@ -45,10 +46,15 @@ class User extends \Core\Model
 					$result = $connection->query("SELECT id FROM users WHERE username='$user' AND email='$email'");
 					$row = mysqli_fetch_array($result);
 					$id_user = $row["id"];
-					$connection->query("INSERT INTO incomes_category_assigned_to_users (id,user_id,name,planned,color) SELECT id, '$id_user' AS user_id, name, planned, color FROM incomes_category_default;");
-					$connection->query("INSERT INTO expenses_category_assigned_to_users (id,user_id,name,planned,color) SELECT id, '$id_user' AS user_id, name, planned, color FROM expenses_category_default;");
-					$connection->query("INSERT INTO payment_methods_assigned_to_users (id,user_id,name) SELECT id, '$id_user' AS user_id, name FROM payment_methods_default;");
-					//$connection->query("UPDATE incomes_category_assigned_to_users SET user_id = $id_user WHERE user_id = 0");
+					$connection->query("INSERT INTO incomes_category_assigned_to_users (id,user_id,name,planned,color) 
+										SELECT id, '$id_user' AS user_id, name, planned, color 
+										FROM incomes_category_default;");
+					$connection->query("INSERT INTO expenses_category_assigned_to_users (id,user_id,name,planned,color) 
+										SELECT id, '$id_user' AS user_id, name, planned, color 
+										FROM expenses_category_default;");
+					$connection->query("INSERT INTO payment_methods_assigned_to_users (id,user_id,name) 
+										SELECT id, '$id_user' AS user_id, name 
+										FROM payment_methods_default;");
 					return true;
 				}
 				else
@@ -189,9 +195,12 @@ class User extends \Core\Model
     {
         $connection = static::getDB();
 		
-		$result = $connection->query("SELECT id, username, password, email FROM users WHERE email='$email'");
+		$result = $connection->query("SELECT * FROM users WHERE email='$email'");
 				
 				if (!$result) throw new Exception($connection->error);
+				
+		$data = $result-> fetch_assoc();
+		$user = new User($data);
 					;
         return $result;
     }
@@ -203,15 +212,18 @@ class User extends \Core\Model
      *
      * @return mixed User object if found, false otherwise
      */
-    public static function findByUsername($user)
+    public static function findByUsername($username)
     {
         $connection = static::getDB();
 		
-		$result = $connection->query("SELECT id, username, password, email FROM users WHERE username='$user'");
+		$result = $connection->query("SELECT * FROM users WHERE username='$username'");
 				
-				if (!$result) throw new Exception($connection->error);  
+				if (!$result) throw new Exception($connection->error); 
+		
+		$data = $result-> fetch_assoc();
+		$user = new User($data);
 					
-        return $result;
+        return $user;
     }
 	
 	/**
@@ -225,11 +237,14 @@ class User extends \Core\Model
     {
         $connection = static::getDB();
 		
-		$result = $connection->query("SELECT id, username, password, email FROM users WHERE id='$id'");
+		$result = $connection->query("SELECT * FROM users WHERE id='$id'");
 				
 				if (!$result) throw new Exception($connection->error);  
+		
+		$data = $result-> fetch_assoc();
+		$user = new User($data);
 					
-        return $result;
+        return $user;
     }
 	
 	
@@ -245,8 +260,7 @@ class User extends \Core\Model
      */
     public static function authenticate($username, $password)
     {
-        $result = static::findByUsername($username);
-		$user = $result-> fetch_object();
+        $user = static::findByUsername($username);		
         if ($user) {
             if (password_verify($password, $user->password)) {
                 return $user;
@@ -256,31 +270,38 @@ class User extends \Core\Model
         return false;
     }
 	
-	
-	
-	
-	public static function logout()
+	/**
+     * Remember the login by inserting a new unique token into the remembered_logins table
+     * for this user record
+     *
+     * @return boolean  True if the login was remembered successfully, false otherwise
+     */
+    public function rememberLogin()
     {
-        // Unset all of the session variables
-        $_SESSION = [];
+        $token = new Token();
+        $hashed_token = $token->getHash();
+        $this->remember_token = $token->getValue();
+		$id = $this->id;
+		
+        $this->expiry_timestamp = time() + 60 * 60 * 24 * 7;  // 7 days from now
+		$expiry_date = date('Y-m-d H:i:s', $this->expiry_timestamp);
+	try 
+		{
+			$connection = static::getDB();
+			$connection->query("INSERT INTO remembered_logins (token_hash, user_id, expires_at)
+                            VALUES ('$hashed_token', $id , '$expiry_date')");
+			return true;
+		}
+		
 
-        // Delete the session cookie
-        if (ini_get('session.use_cookies')) {
-            $params = session_get_cookie_params();
-
-            setcookie(
-                session_name(),
-                '',
-                time() - 42000,
-                $params['path'],
-                $params['domain'],
-                $params['secure'],
-                $params['httponly']
-            );
-        }
-
-        // Finally destroy the session
-        session_destroy();
-
+    catch(Exception $e)
+		{
+			echo '<span style="color:red;">Server error! Please try again later!</span>';
+			echo '<br />Developer information: '.$e;
+			
+		}
+			
+		return false;
     }
+	
 }

@@ -11,7 +11,7 @@ use \App\Models\Expense;
  *
  * PHP version 7.0
  */
-class Expenses extends \Core\Controller
+class Expenses extends Authenticated
 {
 
     /**
@@ -21,8 +21,7 @@ class Expenses extends \Core\Controller
      */
     public function indexAction()
     {
-        if (isset($_SESSION['id'])) 
-		{
+
 			$date = Date::get_date();
 			$expenses = Expense::get($_SESSION['start_date'],$_SESSION['end_date']);
 			$categories_summed = Expense::sum_by_category($_SESSION['start_date'],$_SESSION['end_date']);
@@ -36,11 +35,7 @@ class Expenses extends \Core\Controller
 														'expenses_summed'=>$expenses_summed,
 														'expenses_planned_summed'=>$expenses_planned_summed,
 														'render_expense_chart'=>$render_expense_chart]);
-		}
-		else
-		{
-			$this->redirect('/login/new');	
-        } 
+
     }
 	
 	/**
