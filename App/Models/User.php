@@ -139,7 +139,7 @@ class User extends \Core\Model
 		}		
 		
 		$result = static::findByEmail($email);
-		if($result->num_rows>0)
+		if($result)
 		{
 			$validation_OK=false;
 			$_SESSION['e_email']="Email already exists in database!";
@@ -150,7 +150,7 @@ class User extends \Core\Model
 		}
 				
 		$result = static::findByUsername($user);		
-		if($result->num_rows>0)
+		if($result)
 		{
 			$validation_OK=false;
 			$_SESSION['e_uname']="Username already exists in the database!";
@@ -198,11 +198,18 @@ class User extends \Core\Model
 		$result = $connection->query("SELECT * FROM users WHERE email='$email'");
 				
 				if (!$result) throw new Exception($connection->error);
-				
 		$data = $result-> fetch_assoc();
-		$user = new User($data);
-					;
-        return $result;
+				
+		if ($data != null)
+		{			
+			
+			$user = new User($data);
+			return $user;
+		}
+		else
+		{
+			return false;
+		}
     }
 	
 		/**
@@ -219,11 +226,18 @@ class User extends \Core\Model
 		$result = $connection->query("SELECT * FROM users WHERE username='$username'");
 				
 				if (!$result) throw new Exception($connection->error); 
+		$data = $result-> fetch_assoc();		
 		
-		$data = $result-> fetch_assoc();
-		$user = new User($data);
-					
-        return $user;
+		if ($data != null)
+		{			
+			
+			$user = new User($data);					
+			return $user;
+		}
+		else
+		{
+			return false;
+		}
     }
 	
 	/**
@@ -233,18 +247,26 @@ class User extends \Core\Model
      *
      * @return mixed User object if found, false otherwise
      */
+	 
     public static function findById($id)
     {
         $connection = static::getDB();
 		
 		$result = $connection->query("SELECT * FROM users WHERE id='$id'");
 				
-				if (!$result) throw new Exception($connection->error);  
-		
+				if (!$result) throw new Exception($connection->error); 
 		$data = $result-> fetch_assoc();
-		$user = new User($data);
-					
-        return $user;
+		
+		if ($data != null)
+		{			
+			
+			$user = new User($data);					
+			return $user;
+		}
+		else
+		{
+			return false;
+		}
     }
 	
 	
